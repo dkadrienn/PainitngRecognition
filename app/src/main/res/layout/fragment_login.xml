@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginFragment">
+
+    <TextView
+        android:id="@+id/loginWelcomeMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please log in"
+        android:textColor="@color/customEditText"
+        android:layout_marginTop="@dimen/title_top_margin"
+        android:textSize="@dimen/login_welcome_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginEmailEditText"
+        android:layout_width="@dimen/login_email_edit_text_width"
+        android:layout_height="@dimen/login_email_edit_text_height"
+        android:maxLines="1"
+        android:layout_marginTop="@dimen/edit_text_top_margin"
+        android:hint="@string/email"
+        android:textSize="@dimen/login_email_text_size"
+        android:textColor="@color/customColor"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginWelcomeMessage" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/insideEmailLogIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="deak.a.adrienn@student.ms.sapientia.ro"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginPasswordEditText"
+        android:layout_width="@dimen/login_email_edit_text_width"
+        android:layout_height="@dimen/login_email_edit_text_height"
+        android:layout_marginTop="@dimen/edit_text_top_margin"
+        android:maxLines="1"
+        android:hint="@string/password"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/customColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginEmailEditText" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/insidePwdLogIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:text="123456"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/loginSubmitButton"
+        android:layout_width="@dimen/login_submit_button_width"
+        android:layout_height="@dimen/login_submit_button_height"
+        android:layout_marginTop="@dimen/edit_text_top_margin"
+        android:background="@drawable/button_background"
+        android:text="@string/login_button"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginPasswordEditText" />
+
+    <TextView
+        android:id="@+id/notRegisterdText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/login_not_registered_text_size"
+        android:layout_marginTop="@dimen/not_registered_top_margin"
+        android:text="@string/login"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginSubmitButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
