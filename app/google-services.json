@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "749850396143",
+    "project_id": "painting-recognition",
+    "storage_bucket": "painting-recognition.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749850396143:android:bff9272f58b576ba31e21a",
+        "android_client_info": {
+          "package_name": "com.example.painting_recognition_w_cnn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg5H8r6xUgUivUDKyXGF_d9D1YK6YkK34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749850396143:android:af0b4343d672f16a31e21a",
+        "android_client_info": {
+          "package_name": "com.example.paintingrecognition"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg5H8r6xUgUivUDKyXGF_d9D1YK6YkK34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">PaintingRecognition</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--  AUTHENTICATION PAGE  -->
+    <string name="login">I am not registered yet.</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+    <string name="enter_email">Enter your e-mail:</string>
+    <string name="email">Email</string>
+    <string name="submit">Submit</string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter password:</string>
 </resources>
