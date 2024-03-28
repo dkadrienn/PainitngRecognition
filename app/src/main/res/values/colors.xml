@@ -7,6 +7,4 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="customEditText">@android:color/holo_blue_dark</color>
     <color name="customColor">#166494</color>
-    <color name="logoLightGray">#D9D9D9</color>
-    <color name="progressBarColor">#02898F</color>
 </resources>

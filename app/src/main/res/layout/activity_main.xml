@@ -7,48 +7,62 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#333333"
         tools:context=".MainActivity">
 
-        <ImageView
-            android:id="@+id/logoImage"
-            android:layout_width="@dimen/logo_size"
-            android:layout_height="@dimen/logo_size"
-            android:layout_marginTop="100dp"
-            android:src="@drawable/logobg"
+        <FrameLayout
+            android:id="@+id/mainContainter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
-            android:id="@+id/appName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Painting Recognition"
-            android:textSize="@dimen/app_name_text_size"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logoImage" />
+            app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="@dimen/login_button_width"
-            android:layout_height="@dimen/login_button_height"
-            android:layout_marginTop="20dp"
-            android:text="Login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appName" />
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottomAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:backgroundTint="#B4000000"
+                android:gravity="bottom"
+                app:fabAlignmentMode="center"
+                app:fabCradleMargin="@dimen/cradle_margin"
+                app:fabCradleRoundedCornerRadius="@dimen/cradle_corner_radius"
+                app:fabCradleVerticalOffset="@dimen/cradle_vertical_offset">
 
-        <Button
-            android:id="@+id/signinButton"
-            android:layout_width="@dimen/login_button_width"
-            android:layout_height="@dimen/login_button_height"
-            android:layout_marginTop="20dp"
-            android:text="Sign in"
-            app:layout_constraintEnd_toEndOf="@+id/loginButton"
-            app:layout_constraintStart_toStartOf="@+id/loginButton"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottomNavigationView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/menu_margin_right"
+                    android:background="@drawable/transparent_background"
+                    app:menu="@menu/bottom_nav_menu" />
+
+            </com.google.android.material.bottomappbar.BottomAppBar>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-5dp"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/baseline_camera_alt_24"
+                app:borderWidth="0dp"
+                app:fabCustomSize="100dp"
+                app:layout_anchor="@id/bottomAppBar"
+                app:maxImageSize="70dp" />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
