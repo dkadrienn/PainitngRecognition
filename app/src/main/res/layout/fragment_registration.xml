@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/title_top_margin"
         android:text="Registration"
         android:textSize="@dimen/login_welcome_text_size"
-        android:textColor="@color/customEditText"
+        android:textColor="@color/primaryAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

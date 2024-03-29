@@ -5,47 +5,220 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/homeBackgroundColor"
+        android:translationZ="@dimen/background_translation_z"
         tools:context=".HomeFragment">
 
-        <ImageView
-            android:id="@+id/logoImage"
-            android:layout_width="@dimen/logo_size"
-            android:layout_height="@dimen/logo_size"
-            android:src="@drawable/logobg"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/carousel_background_margin_top"
+            app:cardCornerRadius="@dimen/carousel_background_corner_radius"
+            android:backgroundTint="@color/homeCarouselBackgroundColor"
+            android:layout_marginStart="@dimen/carousel_background_margin_left"
+            android:layout_marginEnd="@dimen/carousel_background_margin_right"
+            app:strokeWidth="@dimen/carousel_background_border_width"
+            app:strokeColor="@color/primaryAccent"
+            android:outlineSpotShadowColor="@color/primaryAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/painterText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="@dimen/carousel_app_icon_width"
+            android:layout_height="@dimen/carousel_app_icon_height"
+            android:src="@drawable/logobg"
+            android:layout_marginTop="@dimen/carousel_app_margin_top"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            android:layout_marginStart="@dimen/carousel_app_margin_start"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="@+id/cardView" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/carousel_title"
+            android:textColor="@color/primaryAccent"
+            android:textSize="@dimen/carousel_title_text_size"
+            android:textStyle="bold"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintStart_toEndOf="@+id/logoImageView"
+            app:layout_constraintTop_toTopOf="@+id/logoImageView"
+            app:layout_constraintBottom_toBottomOf="@+id/logoImageView"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/itemGroup"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            app:constraint_referenced_ids="viewPager2,nameBaseText,nameText,genreBaseText,genreText,painterBaseText,painterText"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/logoImageView" >
+
+
+        </androidx.constraintlayout.widget.Group>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/carousel_height"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/carousel_padding_start"
+            android:paddingEnd="@dimen/carousel_padding_end"
+            android:paddingBottom="@dimen/carousel_padding_bottom"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            android:layout_marginStart="@dimen/carousel_margin_start"
+            android:layout_marginEnd="@dimen/carousel_margin_end"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/logoImageView" />
+
+        <TextView
+            android:id="@+id/nameBaseText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/metadata_name"
+            android:textColor="@color/primaryAccent"
+            android:textSize="@dimen/metadata_text_size"
+            android:layout_marginStart="@dimen/metadata_margin_start"
+            android:layout_marginTop="@dimen/metadata_margin_top"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintStart_toStartOf="@id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/viewPager2" />
+
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/metadata_text_size"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintEnd_toEndOf="@id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/painterText"
+            app:layout_constraintTop_toTopOf="@+id/nameBaseText" />
+
+        <TextView
+            android:id="@+id/genreBaseText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/metadata_genre"
+            android:textColor="@color/primaryAccent"
+            android:textSize="@dimen/metadata_text_size"
+            android:layout_marginStart="@dimen/metadata_margin_start"
+            android:layout_marginTop="@dimen/metadata_margin_top"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintStart_toStartOf="@id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/nameBaseText" />
+
+        <TextView
+            android:id="@+id/genreText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/metadata_text_size"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintEnd_toEndOf="@id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/painterText"
+            app:layout_constraintTop_toTopOf="@+id/genreBaseText" />
+
+        <TextView
+            android:id="@+id/painterBaseText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/metadata_painter"
+            android:textColor="@color/primaryAccent"
+            android:textSize="@dimen/metadata_text_size"
+            android:layout_marginStart="@dimen/metadata_margin_start"
+            android:layout_marginTop="@dimen/metadata_margin_top"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintStart_toStartOf="@id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/genreBaseText" />
+
+        <TextView
+            android:id="@+id/painterText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/metadata_bottom_padding"
+            android:textColor="@color/white"
+            android:textSize="@dimen/metadata_text_size"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            android:layout_marginStart="@dimen/metadata_margin_start"
+            app:layout_constraintEnd_toEndOf="@id/cardView"
+            app:layout_constraintStart_toEndOf="@+id/painterBaseText"
+            app:layout_constraintTop_toTopOf="@+id/painterBaseText" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/fallbackGroup"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:constraint_referenced_ids="noScanTextView,startScanImageView,startScanTextView"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/logoImageView" />
+
+        <TextView
+            android:id="@+id/noScanTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fallback_no_scan"
+            android:textColor="@color/fallbackColor"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintVertical_bias="0.35"
+            app:layout_constraintBottom_toBottomOf="@+id/fallbackGroup"
+            app:layout_constraintEnd_toEndOf="@+id/fallbackGroup"
+            app:layout_constraintStart_toStartOf="@+id/fallbackGroup"
+            app:layout_constraintTop_toTopOf="@+id/fallbackGroup" />
+
+        <ImageView
+            android:id="@+id/startScanImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_camera_alt_24"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            android:layout_marginTop="@dimen/fallback_item_margin_top"
+            app:tint="@color/fallbackColor"
+            app:layout_constraintEnd_toEndOf="@+id/fallbackGroup"
+            app:layout_constraintStart_toStartOf="@+id/fallbackGroup"
+            app:layout_constraintTop_toBottomOf="@+id/noScanTextView" />
+
+        <TextView
+            android:id="@+id/startScanTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fallback_start_scan"
+            android:layout_marginTop="@dimen/fallback_item_margin_top"
+            android:textColor="@color/fallbackColor"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintEnd_toEndOf="@+id/fallbackGroup"
+            app:layout_constraintStart_toStartOf="@+id/fallbackGroup"
+            app:layout_constraintTop_toBottomOf="@+id/startScanImageView" />
+
 
 
         <TextView
-            android:id="@+id/appName"
-            android:layout_width="wrap_content"
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Painting Recognition"
-            android:textSize="@dimen/app_name_text_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logoImage" />
-
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="@dimen/login_button_width"
-            android:layout_height="@dimen/login_button_height"
-            android:layout_marginTop="20dp"
-            android:text="Login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appName" />
-
-        <Button
-            android:id="@+id/signinButton"
-            android:layout_width="@dimen/login_button_width"
-            android:layout_height="@dimen/login_button_height"
-            android:layout_marginTop="20dp"
-            android:text="Sign in"
-            app:layout_constraintEnd_toEndOf="@+id/loginButton"
-            app:layout_constraintStart_toStartOf="@+id/loginButton"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+            android:layout_marginTop="@dimen/app_description_margin_top"
+            android:text="@string/app_description"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/app_description_text_size"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

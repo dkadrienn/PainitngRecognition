@@ -5,6 +5,12 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="customEditText">@android:color/holo_blue_dark</color>
+    <color name="primaryAccent">@android:color/holo_blue_dark</color>
+    <color name="primaryUnselected">#575757</color>
     <color name="customColor">#166494</color>
+
+    <!--  HOME FRAGMENT  -->
+    <color name="homeBackgroundColor">#373737</color>
+    <color name="homeCarouselBackgroundColor">#191919</color>
+    <color name="fallbackColor">#BCBCBC</color>
 </resources>
