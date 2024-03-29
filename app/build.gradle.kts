@@ -54,4 +54,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.glide)
+    implementation(libs.roundedimageview)
+    implementation("io.reactivex.rxjava3:rxjava:3.0.2")
 }

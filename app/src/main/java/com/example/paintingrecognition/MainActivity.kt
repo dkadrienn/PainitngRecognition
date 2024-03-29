@@ -1,5 +1,6 @@
 package com.example.paintingrecognition
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -38,12 +39,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> replaceFragment(HomeFragment())
                 R.id.profile -> replaceFragment(ProfileFragment())
             }
+            // reset floating button color to white
+            binding.floatingActionButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.white))
             true
         }
 
         binding.floatingActionButton.setOnClickListener {
             // set the placeholder to remove selection from other menu items
             binding.bottomNavigationView.selectedItemId = R.id.placeholder
+            // set selected color for floating button
+            binding.floatingActionButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryAccent))
             replaceFragment(ScanFragment())
         }
     }

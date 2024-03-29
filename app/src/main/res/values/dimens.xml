@@ -44,5 +44,42 @@
     <dimen name="cradle_vertical_offset">10dp</dimen>
     <dimen name="menu_margin_right">10dp</dimen>
 
+    <!--  HOME FRAGMENT  -->
+    <dimen name="carousel_item_translation_z">2dp</dimen>
+    <dimen name="background_translation_z">-10dp</dimen>
+
+    <dimen name="carousel_background_margin_top">15dp</dimen>
+    <dimen name="carousel_background_corner_radius">20dp</dimen>
+    <dimen name="carousel_background_margin_left">10dp</dimen>
+    <dimen name="carousel_background_margin_right">10dp</dimen>
+    <dimen name="carousel_background_border_width">1dp</dimen>
+
+    <dimen name="carousel_app_icon_width">50dp</dimen>
+    <dimen name="carousel_app_icon_height">50dp</dimen>
+    <dimen name="carousel_app_margin_top">8dp</dimen>
+    <dimen name="carousel_app_margin_start">10dp</dimen>
+
+    <dimen name="carousel_title_text_size">20sp</dimen>
+
+    <dimen name="carousel_height">200dp</dimen>
+    <dimen name="carousel_padding_start">50dp</dimen>
+    <dimen name="carousel_padding_end">50dp</dimen>
+    <dimen name="carousel_padding_bottom">10dp</dimen>
+
+    <dimen name="carousel_margin_start">5dp</dimen>
+    <dimen name="carousel_margin_end">5dp</dimen>
+
+    <dimen name="metadata_text_size">15sp</dimen>
+    <dimen name="metadata_margin_start">15dp</dimen>
+    <dimen name="metadata_margin_top">15dp</dimen>
+    <dimen name="metadata_bottom_padding">15dp</dimen>
+
+    <dimen name="app_description_margin_top">15dp</dimen>
+    <dimen name="app_description_text_size">25sp</dimen>
+
+    <dimen name="carousel_item_corner_radius">25sp</dimen>
+
+    <dimen name="fallback_item_margin_top">5dp</dimen>
+
 
 </resources>

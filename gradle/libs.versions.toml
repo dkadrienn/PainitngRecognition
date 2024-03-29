@@ -1,5 +1,7 @@
 [versions]
 agp = "8.3.1"
+coil = "2.5.0"
+glide = "4.13.0"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -11,9 +13,14 @@ activity = "1.8.0"
 constraintlayout = "2.1.4"
 googleServices = "4.4.1"
 firebaseAuth = "22.3.1"
+roundedimageview = "2.3.0"
+rxandroid = "3.0.2'"
+rxjava = "3.1.5'"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -23,6 +30,9 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+roundedimageview = { module = "com.makeramen:roundedimageview", version.ref = "roundedimageview" }
+rxandroid = { module = "implementation 'io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
+rxjava = { module = "implementation 'io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

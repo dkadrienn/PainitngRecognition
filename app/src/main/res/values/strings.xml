@@ -16,4 +16,13 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
 
+    <!--  HOME FRAGMENT  -->
+    <string name="carousel_title">Your last 5 scans:</string>
+    <string name="metadata_name">Name:</string>
+    <string name="metadata_genre">Genre:</string>
+    <string name="metadata_painter">Painter:</string>
+    <string name="app_description">Use camera to capture paintings and our application will recognize it and give detailed informations about it.</string>
+    <string name="fallback_no_scan">No scans are available.</string>
+    <string name="fallback_start_scan">Click here to start scanning.</string>
+
 </resources>
