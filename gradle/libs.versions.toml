@@ -15,6 +15,7 @@ googleServices = "4.4.1"
 firebaseAuth = "22.3.1"
 roundedimageview = "2.3.0"
 rxandroid = "3.0.2'"
+rxandroidVersion = "2.0.1"
 rxjava = "3.1.5'"
 
 [libraries]
@@ -33,6 +34,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 roundedimageview = { module = "com.makeramen:roundedimageview", version.ref = "roundedimageview" }
 rxandroid = { module = "implementation 'io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
 rxjava = { module = "implementation 'io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
+rxjava2-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroidVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

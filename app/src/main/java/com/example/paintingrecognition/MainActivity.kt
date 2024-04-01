@@ -45,11 +45,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.floatingActionButton.setOnClickListener {
-            // set the placeholder to remove selection from other menu items
-            binding.bottomNavigationView.selectedItemId = R.id.placeholder
-            // set selected color for floating button
-            binding.floatingActionButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryAccent))
-            replaceFragment(ScanFragment())
+            val fragment = supportFragmentManager.findFragmentById(R.id.mainContainter)
+
+            if (fragment is HomeFragment) {
+                // set the placeholder to remove selection from other menu items
+                binding.bottomNavigationView.selectedItemId = R.id.placeholder
+                // set selected color for floating button
+                binding.floatingActionButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryAccent))
+                replaceFragment(ScanFragment())
+            } else if (fragment is ScanFragment) {
+                fragment.capturePhoto()
+            }
+
         }
     }
 }

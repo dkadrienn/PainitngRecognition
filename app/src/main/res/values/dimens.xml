@@ -82,4 +82,25 @@
     <dimen name="fallback_item_margin_top">5dp</dimen>
 
 
+    <!--  SCAN FRAGMENT  -->
+    <dimen name="camera_preview_height">250dp</dimen>
+    <dimen name="camera_preview_margin_start">20dp</dimen>
+    <dimen name="camera_preview_margin_end">20dp</dimen>
+    <dimen name="camera_preview_margin_top">30dp</dimen>
+
+    <dimen name="scan_recyclerview_margin_top">20dp</dimen>
+    <dimen name="scan_recyclerview_margin_start">20dp</dimen>
+    <dimen name="scan_recyclerview_margin_end">20dp</dimen>
+
+    <!--  SCAN RESULT ITEM  -->
+    <dimen name="scan_result_item_height">120dp</dimen>
+    <dimen name="scan_result_item_corner_radius">20dp</dimen>
+    <dimen name="scan_result_item_margin">20dp</dimen>
+    <dimen name="scan_result_item_image_height">70dp</dimen>
+    <dimen name="scan_result_item_image_width">70dp</dimen>
+    <dimen name="scan_result_item_image_margin">10dp</dimen>
+    <dimen name="scan_result_item_title_size">20sp</dimen>
+    <dimen name="scan_result_item_title_margin">10dp</dimen>
+    <dimen name="scan_result_item_percentage_text_size">20sp</dimen>
+    <dimen name="scan_result_item_percentage_margin_top">10dp</dimen>
 </resources>
