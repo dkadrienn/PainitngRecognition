@@ -1,11 +1,19 @@
 package com.example.paintingrecognition
 
+import android.app.AlertDialog
 import android.content.ContentValues
+import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,7 +26,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.paintingrecognition.adapters.ScanResultsAdapter
 import com.example.paintingrecognition.databinding.FragmentScanBinding
+import com.example.paintingrecognition.eventInterfaces.CapturedImageEvent
 import com.example.paintingrecognition.models.ScanResult
+import com.example.paintingrecognition.utils.ScanPageMode
 import com.example.paintingrecognition.viewModels.ScanViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
@@ -28,7 +38,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-class ScanFragment : Fragment() {
+class ScanFragment(private val onEvent: (CapturedImageEvent) -> Unit) : Fragment(), SensorEventListener {
 
 
     private lateinit var binding: FragmentScanBinding
@@ -39,6 +49,13 @@ class ScanFragment : Fragment() {
     private lateinit var scanResultsAdapter: ScanResultsAdapter
 
     private var scanDisposable: Disposable? = null
+
+    // for rotation checks
+    private lateinit var sensorManager: SensorManager
+    private var rotationVectorSensor: Sensor? = null
+    private lateinit var dialog: AlertDialog
+
+    private var currentPageMode: ScanPageMode = ScanPageMode.SCAN_MODE
 
     companion object {
         private val TAG: String = ScanFragment::class.java.simpleName
@@ -62,7 +79,27 @@ class ScanFragment : Fragment() {
             startCamera()
         }
 
+        initializeRotationAlertDialog()
+
+        // sensors for rotation check
+        sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        rotationVectorSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_UI)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        rotationVectorSensor?.let {
+            sensorManager.unregisterListener(this)
+        }
     }
 
     /**
@@ -114,18 +151,28 @@ class ScanFragment : Fragment() {
 
         // preview use case
         val preview: Preview = Preview.Builder().build().also {
+            it.targetRotation = Surface.ROTATION_0
             it.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
         }
 
         // image capture use case
         imageCapture = ImageCapture.Builder()
+            .setTargetRotation(Surface.ROTATION_0)
             .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
             .build()
 
         cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
     }
 
-    fun capturePhoto() {
+    fun floatActionPressed() {
+        if (ScanPageMode.SCAN_MODE == currentPageMode) {
+            capturePhoto()
+        } else {
+            switchScanMode()
+        }
+    }
+
+    private fun capturePhoto() {
         val timestamp: Long = System.currentTimeMillis()
 
         val contentValues = ContentValues()
@@ -138,8 +185,10 @@ class ScanFragment : Fragment() {
                 contentValues
             ).build(),
             cameraExecutor,
-            ImageSavedCallback(requireContext(), scanViewModel)
+            ImageSavedCallback(requireContext(), onEvent, scanViewModel)
         )
+
+       switchScanMode()
     }
 
     /**
@@ -183,6 +232,79 @@ class ScanFragment : Fragment() {
                 scanDisposable = null
             }
         }
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        if (event.sensor.type === Sensor.TYPE_ROTATION_VECTOR) {
+            val rotationMatrix = FloatArray(9)
+            SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
+            val orientationAngles = FloatArray(3)
+            SensorManager.getOrientation(rotationMatrix, orientationAngles)
+
+            // orientationAngles[0]: Azimuth (rotation around the z-axis)
+            // orientationAngles[1]: Pitch (rotation around the x-axis)
+            // orientationAngles[2]: Roll (rotation around the y-axis)
+
+            val pitch = Math.toDegrees(orientationAngles[1].toDouble()).toFloat()
+
+            if (pitch > -65) {
+                showRotationAlertDialog()
+            }
+        }
+
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+       // NOTHING TO OD
+    }
+
+    private fun showRotationAlertDialog() {
+        if (!dialog.isShowing) {
+            dialog.show()
+        }
+    }
+
+    private fun initializeRotationAlertDialog() {
+        // Create an AlertDialog.Builder instance
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+
+        // Configure the dialog's title, message, and button
+        context?.let {
+            builder.setTitle(it.resources.getString(R.string.rotation_alert_title))
+            builder.setMessage(it.resources.getString(R.string.rotation_alert_message))
+            builder.setPositiveButton(it.resources.getString(R.string.rotation_alert_positive_button_text),
+                DialogInterface.OnClickListener { dialog, which ->
+                    // Handle the OK button action here
+                })
+            builder.setNegativeButton(it.resources.getString(R.string.rotation_alert_negative_button_text), DialogInterface.OnClickListener { dialogInterface, i ->
+                requireActivity().onBackPressed()
+            })
+
+            // Create and show the dialog
+            dialog = builder.create()
+        }
+    }
+
+    /**
+     * Switch between capturing and scan result checking mode.
+     */
+    private fun switchScanMode() {
+        if (ScanPageMode.SCAN_MODE == currentPageMode) {
+            // after taking picture set preview to gone and unregister rotation listener
+            binding.cameraPreview.visibility = View.GONE
+            rotationVectorSensor?.let {
+                sensorManager.unregisterListener(this)
+            }
+            currentPageMode = ScanPageMode.RESULT_MODE
+        } else {
+            // after taking picture set preview to gone and unregister rotation listener
+            binding.cameraPreview.visibility = View.VISIBLE
+            rotationVectorSensor?.let {
+                sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_UI)
+            }
+            currentPageMode = ScanPageMode.SCAN_MODE
+        }
+
     }
 
 }

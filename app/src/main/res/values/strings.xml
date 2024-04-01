@@ -25,4 +25,10 @@
     <string name="fallback_no_scan">No scans are available.</string>
     <string name="fallback_start_scan">Click here to start scanning.</string>
 
+    <!--  SCAN FRAGMENT ALERT DIALOG  -->
+    <string name="rotation_alert_title">Bad alignment!</string>
+    <string name="rotation_alert_message">Please hold phone in Portrait Mode! \nTurn phone in position and press "OK"</string>
+    <string name="rotation_alert_positive_button_text">OK</string>
+    <string name="rotation_alert_negative_button_text">Close page</string>
+
 </resources>
