@@ -1,11 +1,16 @@
 package com.example.paintingrecognition
 
+import android.content.Context
 import android.content.res.ColorStateList
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -13,12 +18,17 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.paintingrecognition.adapters.CarouselAdapter
 import com.example.paintingrecognition.databinding.FragmentHomeBinding
-import com.example.paintingrecognition.models.PaintingModel
+import com.example.paintingrecognition.eventInterfaces.CapturedImageEvent
+import com.example.paintingrecognition.models.CapturedImage
+import com.example.paintingrecognition.viewModels.CapturedImageViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
-class HomeFragment : Fragment() {
+
+class HomeFragment(private val capturedImageViewModel: CapturedImageViewModel) : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var carouselViewPager2: ViewPager2
@@ -34,26 +44,48 @@ class HomeFragment : Fragment() {
 
     private fun setupCarouselRecyclerView() {
         carouselViewPager2 = binding.viewPager2
-        val items = getImages()
-        if (items.isEmpty()){
-            binding.itemGroup.visibility = View.INVISIBLE
-            binding.fallbackGroup.visibility = View.VISIBLE
-            setupFallbackClickListener()
-            return
-        }
-
-        binding.itemGroup.visibility = View.VISIBLE
-        binding.fallbackGroup.visibility = View.INVISIBLE
-
-        adapter = CarouselAdapter(items, context, carouselViewPager2)
-        carouselViewPager2.adapter = adapter
-
-        // setting how many items should be seen
-        carouselViewPager2.offscreenPageLimit = 3
-        // handling scroll for first item
-        carouselViewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
         setUpTransformerForCarousel()
+
+        lifecycleScope.launch {
+            context?.let { innerContext ->
+                getImages().collect {
+                    var filteredItems = it.filter { capturedImage ->
+                        // filter elements which are deleted from phone but still present in DB, also deletes them from db
+                        if (!doesFileExist(innerContext, Uri.parse(capturedImage.path))) {
+                            capturedImageViewModel.onEvent(CapturedImageEvent.DeleteCapturedImage(capturedImage))
+                            return@filter false
+                        }
+                        return@filter true
+                    }
+
+                    // only present the last 5 items
+                    if (filteredItems.size > 5) {
+                        filteredItems = filteredItems.subList(0, 5)
+                    }
+
+                    if (filteredItems.isEmpty()){
+                        binding.itemGroup.visibility = View.INVISIBLE
+                        binding.fallbackGroup.visibility = View.VISIBLE
+                        setupFallbackClickListener()
+                        return@collect
+                    }
+                    capturedImageViewModel.loadedCapturedImages = filteredItems
+
+                    binding.itemGroup.visibility = View.VISIBLE
+                    binding.fallbackGroup.visibility = View.INVISIBLE
+
+                    adapter = CarouselAdapter(filteredItems, context)
+                    carouselViewPager2.adapter = adapter
+
+                    // setting how many items should be seen
+                    carouselViewPager2.offscreenPageLimit = 3
+                    // handling scroll for first item
+                    carouselViewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                }
+            }
+        }
+
     }
 
     /**
@@ -62,9 +94,9 @@ class HomeFragment : Fragment() {
     private fun registerPageSelectedListener() {
         carouselViewPager2.registerOnPageChangeCallback(object: OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                binding.genreText.text = getImages()[position].genre
-                binding.painterText.text = getImages()[position].painter
-                binding.nameText.text = getImages()[position].title
+                binding.genreText.text = capturedImageViewModel.loadedCapturedImages[position].creationTimestamp.toString()
+                binding.painterText.text = capturedImageViewModel.loadedCapturedImages[position].path
+                binding.nameText.text = capturedImageViewModel.loadedCapturedImages[position].name
             }
         })
     }
@@ -97,20 +129,26 @@ class HomeFragment : Fragment() {
                 floatingActionButton?.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryAccent))
 
                 val transaction = activity?.supportFragmentManager?.beginTransaction();
-                transaction?.replace(R.id.mainContainter, ScanFragment())
+                transaction?.replace(R.id.mainContainter, ScanFragment(capturedImageViewModel::onEvent))
                 transaction?.commit()
                 binding.fallbackGroup.setOnClickListener(null)
             }
         }
     }
 
-    private fun getImages(): MutableList<PaintingModel> {
-        return mutableListOf(
-            PaintingModel("https://www.streetmachine.com.au/wp-content/uploads/2023/07/fast-and-furious.jpg","Fast and Furious 1", "action", "Leonardo"),
-            PaintingModel("https://www.streetmachine.com.au/wp-content/uploads/2023/07/fast-and-furious.jpg","Fast and Furious 2", "drama", "michelangelo"),
-            PaintingModel("https://www.streetmachine.com.au/wp-content/uploads/2023/07/fast-and-furious.jpg","Fast and Furious 3", "horror", "NFT"),
-            PaintingModel("https://www.streetmachine.com.au/wp-content/uploads/2023/07/fast-and-furious.jpg","Fast and Furious 4", "drama", "Unknown"),
-            PaintingModel("https://www.streetmachine.com.au/wp-content/uploads/2023/07/fast-and-furious.jpg","Fast and Furious 5", "scifi", "Le"),
-        )
+    private fun getImages(): Flow<List<CapturedImage>> {
+        return capturedImageViewModel._capturedImages
+    }
+
+    fun doesFileExist(context: Context, fileUri: Uri?): Boolean {
+        var cursor: Cursor? = null
+        return try {
+            val projection = arrayOf(MediaStore.Images.Media._ID)
+            // Use appropriate projection for your content type. This example is for images.
+            cursor = context.contentResolver.query(fileUri!!, projection, null, null, null)
+            cursor != null && cursor.moveToFirst()
+        } finally {
+            cursor?.close()
+        }
     }
 }

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -70,4 +71,23 @@ dependencies {
     implementation("androidx.activity:activity:1.8.2")
     implementation("androidx.fragment:fragment:1.6.2")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+
+    implementation("androidx.room:room-runtime:2.6.1")
+
+    // Optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+    implementation(libs.kotlin.stdlib.jdk8)
+
+    // Coroutines Core for Kotlin
+    implementation(libs.kotlinx.coroutines.core)
+
+    // Coroutines Android for Android projects
+    implementation(libs.kotlinx.coroutines.android)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.activity.ktx)
+    implementation (libs.androidx.fragment.ktx)
+    implementation (libs.androidx.exifinterface)
+
 }
