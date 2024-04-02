@@ -15,12 +15,13 @@
     <!--  NAVIGATION MENU  -->
     <string name="home">Home</string>
     <string name="profile">Profile</string>
+    <string name="history">History</string>
 
     <!--  HOME FRAGMENT  -->
     <string name="carousel_title">Your last 5 scans:</string>
     <string name="metadata_name">Name:</string>
-    <string name="metadata_genre">Genre:</string>
-    <string name="metadata_painter">Painter:</string>
+    <string name="metadata_time">Time:</string>
+    <string name="metadata_path">Path:</string>
     <string name="app_description">Use camera to capture paintings and our application will recognize it and give detailed informations about it.</string>
     <string name="fallback_no_scan">No scans are available.</string>
     <string name="fallback_start_scan">Click here to start scanning.</string>
@@ -30,5 +31,8 @@
     <string name="rotation_alert_message">Please hold phone in Portrait Mode! \nTurn phone in position and press "OK"</string>
     <string name="rotation_alert_positive_button_text">OK</string>
     <string name="rotation_alert_negative_button_text">Close page</string>
+
+    <!--  PROFILE PAGE  -->
+    <string name="profile_title_text">You have %d scanned images.</string>
 
 </resources>

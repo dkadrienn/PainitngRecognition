@@ -12,9 +12,9 @@
         android:title=""/>
 
     <item
-        android:id="@+id/profile"
-        android:icon="@drawable/baseline_face_24"
-        android:title="@string/profile"/>
+        android:id="@+id/history"
+        android:icon="@drawable/baseline_history_24"
+        android:title="@string/history"/>
 
 
 </menu>

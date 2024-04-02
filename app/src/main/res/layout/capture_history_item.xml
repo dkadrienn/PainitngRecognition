@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/captureHistoryCardView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/capture_history_item_height"
+            android:layout_marginStart="@dimen/capture_history_item_marign"
+            android:layout_marginTop="@dimen/capture_history_item_marign"
+            android:layout_marginEnd="@dimen/capture_history_item_marign"
+            android:layout_marginBottom="@dimen/capture_history_item_marign"
+            android:translationZ="-2dp"
+            app:cardCornerRadius="@dimen/scan_result_item_corner_radius"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/captureImageVew"
+            android:layout_width="@dimen/capture_history_item_image_width"
+            android:layout_height="@dimen/capture_history_item_image_height"
+            android:src="@drawable/logobg"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/captureHistoryCardView"
+            app:layout_constraintStart_toStartOf="@+id/captureHistoryCardView"
+            app:layout_constraintTop_toTopOf="@+id/captureHistoryCardView" />
+
+        <TextView
+            android:id="@+id/captureName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="scan_result_placeholder"
+            android:textSize="@dimen/scan_result_item_title_size"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintBottom_toTopOf="@+id/captureTime"
+            app:layout_constraintEnd_toEndOf="@+id/captureHistoryCardView"
+            app:layout_constraintStart_toEndOf="@+id/captureImageVew"
+            app:layout_constraintTop_toBottomOf="@+id/captureHistoryCardView" />
+
+        <TextView
+            android:id="@+id/captureTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="65.7%"
+            android:textSize="@dimen/scan_result_item_percentage_text_size"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintBottom_toTopOf="@+id/captureHistoryCardView"
+            app:layout_constraintEnd_toEndOf="@+id/captureHistoryCardView"
+            app:layout_constraintStart_toEndOf="@+id/captureImageVew"
+            app:layout_constraintTop_toBottomOf="@+id/captureName" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
