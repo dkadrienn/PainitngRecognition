@@ -21,7 +21,7 @@
             app:strokeWidth="@dimen/carousel_background_border_width"
             app:strokeColor="@color/primaryAccent"
             android:outlineSpotShadowColor="@color/primaryAccent"
-            app:layout_constraintBottom_toBottomOf="@+id/painterText"
+            app:layout_constraintBottom_toBottomOf="@+id/pathText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="invisible"
-            app:constraint_referenced_ids="viewPager2,nameBaseText,nameText,genreBaseText,genreText,painterBaseText,painterText"
+            app:constraint_referenced_ids="viewPager2,nameBaseText,nameText,TimeBaseText,timeText,pathBaseText,pathText"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintEnd_toEndOf="@+id/cardView"
             app:layout_constraintStart_toStartOf="@+id/cardView"
@@ -104,14 +104,14 @@
             android:textSize="@dimen/metadata_text_size"
             android:translationZ="@dimen/carousel_item_translation_z"
             app:layout_constraintEnd_toEndOf="@id/cardView"
-            app:layout_constraintStart_toStartOf="@+id/painterText"
+            app:layout_constraintStart_toStartOf="@+id/pathText"
             app:layout_constraintTop_toTopOf="@+id/nameBaseText" />
 
         <TextView
-            android:id="@+id/genreBaseText"
+            android:id="@+id/TimeBaseText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/metadata_genre"
+            android:text="@string/metadata_time"
             android:textColor="@color/primaryAccent"
             android:textSize="@dimen/metadata_text_size"
             android:layout_marginStart="@dimen/metadata_margin_start"
@@ -121,31 +121,31 @@
             app:layout_constraintTop_toBottomOf="@+id/nameBaseText" />
 
         <TextView
-            android:id="@+id/genreText"
+            android:id="@+id/timeText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="@dimen/metadata_text_size"
             android:translationZ="@dimen/carousel_item_translation_z"
             app:layout_constraintEnd_toEndOf="@id/cardView"
-            app:layout_constraintStart_toStartOf="@+id/painterText"
-            app:layout_constraintTop_toTopOf="@+id/genreBaseText" />
+            app:layout_constraintStart_toStartOf="@+id/pathText"
+            app:layout_constraintTop_toTopOf="@+id/TimeBaseText" />
 
         <TextView
-            android:id="@+id/painterBaseText"
+            android:id="@+id/pathBaseText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/metadata_painter"
+            android:text="@string/metadata_path"
             android:textColor="@color/primaryAccent"
             android:textSize="@dimen/metadata_text_size"
             android:layout_marginStart="@dimen/metadata_margin_start"
             android:layout_marginTop="@dimen/metadata_margin_top"
             android:translationZ="@dimen/carousel_item_translation_z"
             app:layout_constraintStart_toStartOf="@id/cardView"
-            app:layout_constraintTop_toBottomOf="@+id/genreBaseText" />
+            app:layout_constraintTop_toBottomOf="@+id/TimeBaseText" />
 
         <TextView
-            android:id="@+id/painterText"
+            android:id="@+id/pathText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/metadata_bottom_padding"
@@ -154,8 +154,8 @@
             android:translationZ="@dimen/carousel_item_translation_z"
             android:layout_marginStart="@dimen/metadata_margin_start"
             app:layout_constraintEnd_toEndOf="@id/cardView"
-            app:layout_constraintStart_toEndOf="@+id/painterBaseText"
-            app:layout_constraintTop_toTopOf="@+id/painterBaseText" />
+            app:layout_constraintStart_toEndOf="@+id/pathBaseText"
+            app:layout_constraintTop_toTopOf="@+id/pathBaseText" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/fallbackGroup"

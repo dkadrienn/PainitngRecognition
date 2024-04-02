@@ -7,12 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.paintingrecognition.MainActivity
 import com.example.paintingrecognition.R
 import com.example.paintingrecognition.databinding.ScanResultItemBinding
+import com.example.paintingrecognition.eventInterfaces.CapturedImageEvent
+import com.example.paintingrecognition.eventInterfaces.ScanResultEvent
+import com.example.paintingrecognition.models.CapturedImage
 import com.example.paintingrecognition.models.ScanResult
+import com.example.paintingrecognition.viewModels.CapturedImageViewModel
+import com.example.paintingrecognition.viewModels.ScanViewModel
 
 
-class ScanResultsAdapter(var scanResults: MutableList<ScanResult>, private val context: Context?):
+class ScanResultsAdapter(var scanResults: MutableList<ScanResult>,
+                         private val context: Context?,
+                         private val scanViewModel: ScanViewModel,
+                         private val capturedImageViewModel: CapturedImageViewModel,
+                         private val capturedImage: CapturedImage):
     RecyclerView.Adapter<ScanResultsAdapter.ScanResultViewHolder>() {
 
     lateinit var scanResultBinding: ScanResultItemBinding
@@ -71,6 +81,15 @@ class ScanResultsAdapter(var scanResults: MutableList<ScanResult>, private val c
                 .placeholder(R.drawable.logobg)
                 .centerCrop()
                 .into(holder.scanImageView)
+        }
+
+        setHolderClickListener(scanResults[position])
+    }
+    private fun setHolderClickListener(scanResult: ScanResult) {
+        scanResultBinding.root.setOnClickListener {
+            scanViewModel.onEvent(ScanResultEvent.SaveScanResult(scanResult))
+            capturedImageViewModel.onEvent(CapturedImageEvent.SaveCapturedImage(capturedImage))
+            MainActivity.navigation.openImageResultDetailPage(capturedImage, scanResult)
         }
     }
 }

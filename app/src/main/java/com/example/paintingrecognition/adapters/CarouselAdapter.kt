@@ -5,12 +5,14 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.exifinterface.media.ExifInterface
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.paintingrecognition.MainActivity
 import com.example.paintingrecognition.R
 import com.example.paintingrecognition.models.CapturedImage
 import com.makeramen.roundedimageview.RoundedImageView
@@ -26,6 +28,13 @@ class CarouselAdapter(private val images: List<CapturedImage>, private val conte
     }
 
     override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
+        images[position]?.let { capturedImage ->
+            holder.itemView.setOnClickListener {
+                Log.d("OPENDETAILPAGE>>","open: " + capturedImage)
+                MainActivity.navigation.openImageResultDetailPage(capturedImage, null)
+            }
+        }
+
         return holder.bind(images[position])
     }
 

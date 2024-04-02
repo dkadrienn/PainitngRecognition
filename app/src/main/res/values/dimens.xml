@@ -103,4 +103,15 @@
     <dimen name="scan_result_item_title_margin">10dp</dimen>
     <dimen name="scan_result_item_percentage_text_size">20sp</dimen>
     <dimen name="scan_result_item_percentage_margin_top">10dp</dimen>
+
+    <!--  PROFILE PAGE  -->
+    <dimen name="profile_title_text_size">25sp</dimen>
+    <dimen name="profile_title_text_margin_top">20dp</dimen>
+    <dimen name="profile_scrollview_margin_top">20dp</dimen>
+    <dimen name="capture_history_item_image_height">150dp</dimen>
+    <dimen name="capture_history_item_image_width">150dp</dimen>
+    <dimen name="capture_history_item_height">190dp</dimen>
+    <dimen name="capture_history_item_marign">10dp</dimen>
+
+
 </resources>

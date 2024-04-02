@@ -1,31 +1,60 @@
 package com.example.paintingrecognition.viewModels
 
+import android.os.Handler
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.paintingrecognition.daos.ScanResultDao
+import com.example.paintingrecognition.eventInterfaces.ScanResultEvent
 import com.example.paintingrecognition.models.ScanResult
 import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
-class ScanViewModel {
+class ScanViewModel(
+    private val dao: ScanResultDao
+): ViewModel() {
+
+    val _scanResults = dao.getScanResults()
+    lateinit var _scanResultByUrl: Flow<ScanResult>
 
     var scanResultSubject = PublishSubject.create<MutableList<ScanResult>>()
 
-    /**
-     * Saving photo in db.
-     */
-    fun savePhoto() {
+    fun onEvent(event: ScanResultEvent) {
+        when (event) {
+            is ScanResultEvent.SaveScanResult -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    dao.upsertScanResult(event.scanResult)
+                }
+            }
+            is ScanResultEvent.DeleteScanResult -> {
+                viewModelScope.launch {
+                    dao.deleteScanResult(event.scanResult)
+                }
+            }
+            is ScanResultEvent.DeleteScanResultByUrl -> {
+                viewModelScope.launch {
+                    dao.deleteScanResultByUrl(event.url)
+                }
+            }
+            is ScanResultEvent.GetScanResultByUrl -> {
+                _scanResultByUrl = dao.getScanResultByImageUrl(event.url)
+            }
+            ScanResultEvent.GetScanResults -> {
+                _scanResults
+            }
 
+        }
     }
 
     /**
      * Emitting the result fom db.
      */
-    fun emmitResult() {
-        val items = mutableListOf(
-            ScanResult("https://www.streetmachine.com.au/wp-content/uploads/2023/07/fast-and-furious.jpg","Fast and Furious 1", "action", "Leonardo", 35.5f),
-            ScanResult("https://www.streetmachine.com.au/wp-content/uploads/2023/07/fast-and-furious.jpg","Fast and Furious 2", "drama", "michelangelo", 93.1f),
-            ScanResult("https://www.streetmachine.com.au/wp-content/uploads/2023/07/fast-and-furious.jpg","Fast and Furious 3", "horror", "NFT", 44.2f),
-            ScanResult("https://www.streetmachine.com.au/wp-content/uploads/2023/07/fast-and-furious.jpg","Fast and Furious 4", "drama", "Unknown", 11.5f),
-            ScanResult("https://www.streetmachine.com.au/wp-content/uploads/2023/07/fast-and-furious.jpg","Fast and Furious 5", "scifi", "Le", 72.5f),
-        )
+    fun emmitResult(items: MutableList<ScanResult>) {
+
         items.sortByDescending { it.resemblance }
-        scanResultSubject.onNext(items)
+        Handler().postDelayed(Runnable {
+            scanResultSubject.onNext(items)
+        },1000)
     }
 }

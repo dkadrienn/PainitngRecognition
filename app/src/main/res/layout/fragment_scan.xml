@@ -18,20 +18,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:scaleType="fitCenter" />
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cameraPreview">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/scanRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,16 +19,21 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.paintingrecognition.adapters.CarouselAdapter
 import com.example.paintingrecognition.databinding.FragmentHomeBinding
 import com.example.paintingrecognition.eventInterfaces.CapturedImageEvent
+import com.example.paintingrecognition.eventInterfaces.ScanResultEvent
 import com.example.paintingrecognition.models.CapturedImage
 import com.example.paintingrecognition.viewModels.CapturedImageViewModel
+import com.example.paintingrecognition.viewModels.ScanViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.math.abs
 
 
-class HomeFragment(private val capturedImageViewModel: CapturedImageViewModel) : Fragment() {
+class HomeFragment(private val capturedImageViewModel: CapturedImageViewModel, private val scanViewModel: ScanViewModel) : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var carouselViewPager2: ViewPager2
@@ -54,6 +59,7 @@ class HomeFragment(private val capturedImageViewModel: CapturedImageViewModel) :
                         // filter elements which are deleted from phone but still present in DB, also deletes them from db
                         if (!doesFileExist(innerContext, Uri.parse(capturedImage.path))) {
                             capturedImageViewModel.onEvent(CapturedImageEvent.DeleteCapturedImage(capturedImage))
+                            scanViewModel.onEvent(ScanResultEvent.DeleteScanResultByUrl(capturedImage.path))
                             return@filter false
                         }
                         return@filter true
@@ -94,8 +100,12 @@ class HomeFragment(private val capturedImageViewModel: CapturedImageViewModel) :
     private fun registerPageSelectedListener() {
         carouselViewPager2.registerOnPageChangeCallback(object: OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                binding.genreText.text = capturedImageViewModel.loadedCapturedImages[position].creationTimestamp.toString()
-                binding.painterText.text = capturedImageViewModel.loadedCapturedImages[position].path
+                val date = Date(capturedImageViewModel.loadedCapturedImages[position].creationTimestamp)
+                val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                val formattedDate = simpleDateFormat.format(date)
+
+                binding.timeText.text = formattedDate
+                binding.pathText.text = capturedImageViewModel.loadedCapturedImages[position].path
                 binding.nameText.text = capturedImageViewModel.loadedCapturedImages[position].name
             }
         })
@@ -127,10 +137,7 @@ class HomeFragment(private val capturedImageViewModel: CapturedImageViewModel) :
                 // set selected color for floating button
                 val floatingActionButton = activity?.findViewById<FloatingActionButton>(R.id.floatingActionButton)
                 floatingActionButton?.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryAccent))
-
-                val transaction = activity?.supportFragmentManager?.beginTransaction();
-                transaction?.replace(R.id.mainContainter, ScanFragment(capturedImageViewModel::onEvent))
-                transaction?.commit()
+                MainActivity.navigation.openScanFragment()
                 binding.fallbackGroup.setOnClickListener(null)
             }
         }
