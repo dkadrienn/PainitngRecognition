@@ -1,9 +1,7 @@
 import cv2
-import numpy as np
 import pandas
-from matplotlib import pyplot as plt
-import resnet50
-
+import gc
+import os
 
 # IDENTIFY CLASSES
 def get_classes(folder):
@@ -23,9 +21,46 @@ def get_data_path_w_label(folder):
 
 
 # READ IMAGES INTO ARRAY
-def get_images(paths):
-    im_data = [cv2.imread('data/wikiart/wikiart/' + path) for path in paths]
-    return im_data
+def get_images(data_flag, paths):
+    base_path = 'data/output/'
+    save_folder = base_path + 'train_images_transformed/'
+    if data_flag == 2:
+        save_folder = base_path + 'val_images_transformed/'
+    if data_flag == 3:
+        save_folder = base_path + 'test_images_transformed/'
+
+    if not os.path.exists(save_folder):
+        os.makedirs(save_folder)
+
+    processed_images = []  # To store processed images
+
+    for path in paths:
+        # Load one image at a time
+        image = cv2.imread('data/wikiart/wikiart/' + path)
+        if image is None:
+            continue  # Skip if the image wasn't loaded properly
+
+        # Resize the image
+        scale_percent = 50  # percentage of original size
+        width = int(image.shape[1] * scale_percent / 100)
+        height = int(image.shape[0] * scale_percent / 100)
+        dim = (width, height)
+        resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
+
+        # Process the resized image
+        processed_image = cv2.GaussianBlur(resized, (5, 5), 0)
+
+        # save the processed image into files based on thw dataset type (1 - train, 2 - val, 3 - test)
+        cv2.imwrite(save_folder + path, processed_image)
+        cv2.waitKey(0)
+
+        processed_images.append(processed_image)
+
+        # Free up memory
+        del image, resized, processed_image
+        gc.collect()
+
+    return processed_images
 
 
 # READ DATA W HEADER
