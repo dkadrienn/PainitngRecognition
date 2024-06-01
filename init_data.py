@@ -3,6 +3,9 @@ import pandas
 import gc
 import os
 
+from matplotlib import pyplot as plt
+
+
 # IDENTIFY CLASSES
 def get_classes(folder):
     style_classes = {}
@@ -51,7 +54,7 @@ def get_images(data_flag, paths):
         processed_image = cv2.GaussianBlur(resized, (5, 5), 0)
 
         # save the processed image into files based on thw dataset type (1 - train, 2 - val, 3 - test)
-        cv2.imwrite(save_folder + path, processed_image)
+        cv2.imwrite(save_folder + path.replace('/', '_'), processed_image)
         cv2.waitKey(0)
 
         processed_images.append(processed_image)
@@ -59,6 +62,15 @@ def get_images(data_flag, paths):
         # Free up memory
         del image, resized, processed_image
         gc.collect()
+
+    for i in range(16):
+        plt.subplot(4, 4, i+1)
+        plt.xticks([])
+        plt.yticks([])
+        plt.imshow(processed_images[i], cmap=plt.cm.binary)
+        plt.xlabel(get_classes('data/wikiart_csv/style_class.txt')[style_train_label[i][0]])
+
+    plt.show()
 
     return processed_images
 
@@ -77,14 +89,3 @@ style_test_label = style_test['Class'].tolist()
 
 style_val_im_path = style_val['Path'].tolist()
 style_val_label = style_val['Class'].tolist()
-
-# style_train_im = get_images(style_train_im_path)
-
-# for i in range(16):
-#     plt.subplot(4, 4, i+1)
-#     plt.xticks([])
-#     plt.yticks([])
-#     plt.imshow(style_train_im[i], cmap=plt.cm.binary)
-#     plt.xlabel(style_classes[style_train_label[i][0]])
-#
-# plt.show()
