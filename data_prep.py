@@ -32,7 +32,7 @@ def reduce_data(file, n):
         df = df.sample(n=n, random_state=42)  # `random_state` for reproducibility
 
     # save the reduced DataFrame to a new CSV file
-    reduced_file_name = file.replace('.csv', '_reduced.csv')
+    reduced_file_name = file.replace('_filtered.csv', '_reduced.csv')
     df.to_csv(reduced_file_name, index=False)
 
 
