@@ -19,8 +19,8 @@
 
     <!--  HOME FRAGMENT  -->
     <string name="carousel_title">Your last 5 scans:</string>
-    <string name="metadata_name">Name:</string>
-    <string name="metadata_time">Time:</string>
+    <string name="metadata_genre">Genre:</string>
+    <string name="metadata_accuracy">Accuracy:</string>
     <string name="metadata_path">Path:</string>
     <string name="app_description">Use camera to capture paintings and our application will recognize it and give detailed informations about it.</string>
     <string name="fallback_no_scan">No scans are available.</string>

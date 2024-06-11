@@ -87,11 +87,12 @@
             android:id="@+id/nameBaseText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/metadata_name"
+            android:text="@string/metadata_genre"
             android:textColor="@color/primaryAccent"
             android:textSize="@dimen/metadata_text_size"
             android:layout_marginStart="@dimen/metadata_margin_start"
             android:layout_marginTop="@dimen/metadata_margin_top"
+            android:paddingEnd="@dimen/metadata_margin_start"
             android:translationZ="@dimen/carousel_item_translation_z"
             app:layout_constraintStart_toStartOf="@id/cardView"
             app:layout_constraintTop_toBottomOf="@+id/viewPager2" />
@@ -104,17 +105,18 @@
             android:textSize="@dimen/metadata_text_size"
             android:translationZ="@dimen/carousel_item_translation_z"
             app:layout_constraintEnd_toEndOf="@id/cardView"
-            app:layout_constraintStart_toStartOf="@+id/pathText"
+            app:layout_constraintStart_toEndOf="@+id/nameBaseText"
             app:layout_constraintTop_toTopOf="@+id/nameBaseText" />
 
         <TextView
             android:id="@+id/TimeBaseText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/metadata_time"
+            android:text="@string/metadata_accuracy"
             android:textColor="@color/primaryAccent"
             android:textSize="@dimen/metadata_text_size"
             android:layout_marginStart="@dimen/metadata_margin_start"
+            android:paddingEnd="@dimen/metadata_margin_start"
             android:layout_marginTop="@dimen/metadata_margin_top"
             android:translationZ="@dimen/carousel_item_translation_z"
             app:layout_constraintStart_toStartOf="@id/cardView"
@@ -128,7 +130,7 @@
             android:textSize="@dimen/metadata_text_size"
             android:translationZ="@dimen/carousel_item_translation_z"
             app:layout_constraintEnd_toEndOf="@id/cardView"
-            app:layout_constraintStart_toStartOf="@+id/pathText"
+            app:layout_constraintStart_toEndOf="@+id/TimeBaseText"
             app:layout_constraintTop_toTopOf="@+id/TimeBaseText" />
 
         <TextView
@@ -139,6 +141,7 @@
             android:textColor="@color/primaryAccent"
             android:textSize="@dimen/metadata_text_size"
             android:layout_marginStart="@dimen/metadata_margin_start"
+            android:paddingEnd="@dimen/metadata_margin_start"
             android:layout_marginTop="@dimen/metadata_margin_top"
             android:translationZ="@dimen/carousel_item_translation_z"
             app:layout_constraintStart_toStartOf="@id/cardView"
@@ -152,7 +155,6 @@
             android:textColor="@color/white"
             android:textSize="@dimen/metadata_text_size"
             android:translationZ="@dimen/carousel_item_translation_z"
-            android:layout_marginStart="@dimen/metadata_margin_start"
             app:layout_constraintEnd_toEndOf="@id/cardView"
             app:layout_constraintStart_toEndOf="@+id/pathBaseText"
             app:layout_constraintTop_toTopOf="@+id/pathBaseText" />

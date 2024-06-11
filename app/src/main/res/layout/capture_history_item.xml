@@ -41,13 +41,13 @@
             android:text="scan_result_placeholder"
             android:textSize="@dimen/scan_result_item_title_size"
             android:translationZ="@dimen/carousel_item_translation_z"
-            app:layout_constraintBottom_toTopOf="@+id/captureTime"
+            app:layout_constraintBottom_toTopOf="@+id/scanAccuracy"
             app:layout_constraintEnd_toEndOf="@+id/captureHistoryCardView"
             app:layout_constraintStart_toEndOf="@+id/captureImageVew"
             app:layout_constraintTop_toBottomOf="@+id/captureHistoryCardView" />
 
         <TextView
-            android:id="@+id/captureTime"
+            android:id="@+id/scanAccuracy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="65.7%"
@@ -57,6 +57,17 @@
             app:layout_constraintEnd_toEndOf="@+id/captureHistoryCardView"
             app:layout_constraintStart_toEndOf="@+id/captureImageVew"
             app:layout_constraintTop_toBottomOf="@+id/captureName" />
+
+        <TextView
+            android:id="@+id/resultGenre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="65.7%"
+            android:textSize="16sp"
+            android:translationZ="@dimen/carousel_item_translation_z"
+            app:layout_constraintEnd_toEndOf="@+id/captureName"
+            app:layout_constraintStart_toStartOf="@+id/captureName"
+            app:layout_constraintTop_toBottomOf="@+id/scanAccuracy" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,15 +21,14 @@ import com.example.paintingrecognition.databinding.FragmentHomeBinding
 import com.example.paintingrecognition.eventInterfaces.CapturedImageEvent
 import com.example.paintingrecognition.eventInterfaces.ScanResultEvent
 import com.example.paintingrecognition.models.CapturedImage
+import com.example.paintingrecognition.models.ScanResult
 import com.example.paintingrecognition.viewModels.CapturedImageViewModel
 import com.example.paintingrecognition.viewModels.ScanViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import kotlin.math.abs
 
 
@@ -54,40 +53,45 @@ class HomeFragment(private val capturedImageViewModel: CapturedImageViewModel, p
 
         lifecycleScope.launch {
             context?.let { innerContext ->
-                getImages().collect {
-                    var filteredItems = it.filter { capturedImage ->
-                        // filter elements which are deleted from phone but still present in DB, also deletes them from db
-                        if (!doesFileExist(innerContext, Uri.parse(capturedImage.path))) {
-                            capturedImageViewModel.onEvent(CapturedImageEvent.DeleteCapturedImage(capturedImage))
-                            scanViewModel.onEvent(ScanResultEvent.DeleteScanResultByUrl(capturedImage.path))
-                            return@filter false
+                getImages()
+                    .zip(getScanResults()) {
+                        images, scanResults -> Pair(images, scanResults)
+                    }
+                    .collect {
+                        scanViewModel.scanResults = it.second
+                        var filteredItems = it.first.filter { capturedImage ->
+                            // filter elements which are deleted from phone but still present in DB, also deletes them from db
+                            if (!doesFileExist(innerContext, Uri.parse(capturedImage.path))) {
+                                capturedImageViewModel.onEvent(CapturedImageEvent.DeleteCapturedImage(capturedImage))
+                                scanViewModel.onEvent(ScanResultEvent.DeleteScanResultByUrl(capturedImage.path))
+                                return@filter false
+                            }
+                            return@filter true
                         }
-                        return@filter true
-                    }
 
-                    // only present the last 5 items
-                    if (filteredItems.size > 5) {
-                        filteredItems = filteredItems.subList(0, 5)
-                    }
+                        // only present the last 5 items
+                        if (filteredItems.size > 5) {
+                            filteredItems = filteredItems.subList(0, 5)
+                        }
 
-                    if (filteredItems.isEmpty()){
-                        binding.itemGroup.visibility = View.INVISIBLE
-                        binding.fallbackGroup.visibility = View.VISIBLE
-                        setupFallbackClickListener()
-                        return@collect
-                    }
-                    capturedImageViewModel.loadedCapturedImages = filteredItems
+                        if (filteredItems.isEmpty()){
+                            binding.itemGroup.visibility = View.INVISIBLE
+                            binding.fallbackGroup.visibility = View.VISIBLE
+                            setupFallbackClickListener()
+                            return@collect
+                        }
+                        capturedImageViewModel.loadedCapturedImages = filteredItems
 
-                    binding.itemGroup.visibility = View.VISIBLE
-                    binding.fallbackGroup.visibility = View.INVISIBLE
+                        binding.itemGroup.visibility = View.VISIBLE
+                        binding.fallbackGroup.visibility = View.INVISIBLE
 
-                    adapter = CarouselAdapter(filteredItems, context)
-                    carouselViewPager2.adapter = adapter
+                        adapter = CarouselAdapter(filteredItems, context)
+                        carouselViewPager2.adapter = adapter
 
-                    // setting how many items should be seen
-                    carouselViewPager2.offscreenPageLimit = 3
-                    // handling scroll for first item
-                    carouselViewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                        // setting how many items should be seen
+                        carouselViewPager2.offscreenPageLimit = 3
+                        // handling scroll for first item
+                        carouselViewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
                 }
             }
         }
@@ -100,13 +104,11 @@ class HomeFragment(private val capturedImageViewModel: CapturedImageViewModel, p
     private fun registerPageSelectedListener() {
         carouselViewPager2.registerOnPageChangeCallback(object: OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                val date = Date(capturedImageViewModel.loadedCapturedImages[position].creationTimestamp)
-                val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-                val formattedDate = simpleDateFormat.format(date)
+                val scanResult = scanViewModel.scanResults.find { item -> item.capturedImageUrl == capturedImageViewModel.loadedCapturedImages[position].path }
 
-                binding.timeText.text = formattedDate
+                binding.timeText.text = String.format("%.3f",scanResult?.resemblance) + "%"
                 binding.pathText.text = capturedImageViewModel.loadedCapturedImages[position].path
-                binding.nameText.text = capturedImageViewModel.loadedCapturedImages[position].name
+                binding.nameText.text = scanResult?.genre
             }
         })
     }
@@ -145,6 +147,10 @@ class HomeFragment(private val capturedImageViewModel: CapturedImageViewModel, p
 
     private fun getImages(): Flow<List<CapturedImage>> {
         return capturedImageViewModel._capturedImages
+    }
+
+    private fun getScanResults(): Flow<List<ScanResult>> {
+        return scanViewModel._scanResults
     }
 
     fun doesFileExist(context: Context, fileUri: Uri?): Boolean {

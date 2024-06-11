@@ -12,6 +12,7 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.util.Size
 import android.view.LayoutInflater
 import android.view.Surface
 import android.view.View
@@ -138,6 +139,7 @@ class ScanFragment(private val capturedImageViewModel: CapturedImageViewModel, p
 
         // image capture use case
         imageCapture = ImageCapture.Builder()
+            .setTargetResolution(Size(224, 224))
             .setTargetRotation(Surface.ROTATION_0)
             .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
             .build()

@@ -24,6 +24,8 @@ roundedimageview = "2.3.0"
 rxandroid = "3.0.2'"
 rxandroidVersion = "2.0.1"
 rxjava = "3.1.5'"
+tensorflowLiteMetadata = "0.1.0"
+tensorflowLiteGpu = "2.3.0"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -50,6 +52,8 @@ roundedimageview = { module = "com.makeramen:roundedimageview", version.ref = "r
 rxandroid = { module = "implementation 'io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
 rxjava = { module = "implementation 'io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 rxjava2-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroidVersion" }
+tensorflow-lite-metadata = { group = "org.tensorflow", name = "tensorflow-lite-metadata", version.ref = "tensorflowLiteMetadata" }
+tensorflow-lite-gpu = { group = "org.tensorflow", name = "tensorflow-lite-gpu", version.ref = "tensorflowLiteGpu" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

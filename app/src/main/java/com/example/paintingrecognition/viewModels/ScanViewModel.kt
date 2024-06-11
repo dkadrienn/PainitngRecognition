@@ -17,6 +17,7 @@ class ScanViewModel(
 
     val _scanResults = dao.getScanResults()
     lateinit var _scanResultByUrl: Flow<ScanResult>
+    var scanResults: List<ScanResult> = arrayListOf()
 
     var scanResultSubject = PublishSubject.create<MutableList<ScanResult>>()
 

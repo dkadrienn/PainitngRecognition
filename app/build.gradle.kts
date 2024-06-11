@@ -39,6 +39,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        mlModelBinding = true
     }
 }
 
@@ -50,6 +51,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.auth)
+    implementation(libs.tensorflow.lite.metadata)
+    implementation(libs.tensorflow.lite.gpu)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -89,5 +92,9 @@ dependencies {
     implementation (libs.androidx.activity.ktx)
     implementation (libs.androidx.fragment.ktx)
     implementation (libs.androidx.exifinterface)
+
+    // Tensorflow
+    implementation ("org.tensorflow:tensorflow-lite:2.9.0")
+    implementation ("org.tensorflow:tensorflow-lite-support:0.3.1")
 
 }
