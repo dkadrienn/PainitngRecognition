@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.paintingrecognition.GenericConstants
 import com.example.paintingrecognition.MainActivity
 import com.example.paintingrecognition.R
 import com.example.paintingrecognition.databinding.ScanResultItemBinding
@@ -28,7 +28,6 @@ class ScanResultsAdapter(var scanResults: MutableList<ScanResult>,
     lateinit var scanResultBinding: ScanResultItemBinding
 
     inner class ScanResultViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val scanImageView = scanResultBinding.scanResultImageView
         val scanResultName = scanResultBinding.scanResultName
         val scanResultResemblance = scanResultBinding.scanResultResemblance
     }
@@ -44,8 +43,8 @@ class ScanResultsAdapter(var scanResults: MutableList<ScanResult>,
     }
 
     override fun onBindViewHolder(holder: ScanResultViewHolder, position: Int) {
-        holder.scanResultName.text = scanResults[position].title
-        holder.scanResultResemblance.text = scanResults[position].resemblance.toString() + "%"
+        holder.scanResultName.text = scanResults[position].genre
+        holder.scanResultResemblance.text = String.format("%.2f",scanResults[position].resemblance) + "%"
 
         /// sets the progression to the item
         val screenWidth = context?.resources?.displayMetrics?.widthPixels
@@ -60,7 +59,7 @@ class ScanResultsAdapter(var scanResults: MutableList<ScanResult>,
                 scanResultBinding.progressCardView.layoutParams = params
 
                 context?.resources?.let {
-                    if (scanResults[position].resemblance < 50) {
+                    if (scanResults[position].resemblance < GenericConstants.MODEL_PRECISION) {
                         scanResultBinding.progressCardView.backgroundTintList = ColorStateList.valueOf(it.getColor(R.color.progressLow))
                     } else {
                         scanResultBinding.progressCardView.backgroundTintList = ColorStateList.valueOf(it.getColor(R.color.progressHeigh))
@@ -74,22 +73,22 @@ class ScanResultsAdapter(var scanResults: MutableList<ScanResult>,
             }
         }
 
-
-        context?.let {
-            Glide.with(it)
-                .load(scanResults[position].imageUrl)
-                .placeholder(R.drawable.logobg)
-                .centerCrop()
-                .into(holder.scanImageView)
-        }
-
         setHolderClickListener(scanResults[position])
     }
     private fun setHolderClickListener(scanResult: ScanResult) {
         scanResultBinding.root.setOnClickListener {
             scanViewModel.onEvent(ScanResultEvent.SaveScanResult(scanResult))
             capturedImageViewModel.onEvent(CapturedImageEvent.SaveCapturedImage(capturedImage))
-            MainActivity.navigation.openImageResultDetailPage(capturedImage, scanResult)
+            //MainActivity.navigation.openImageResultDetailPage(capturedImage, scanResult)
+            MainActivity.navigation.openHomeFragment()
         }
     }
+
+    // save first result to db when press back instead of selecting a result
+    fun onBackPressed(): Boolean {
+        scanViewModel.onEvent(ScanResultEvent.SaveScanResult(scanResults[0]))
+        capturedImageViewModel.onEvent(CapturedImageEvent.SaveCapturedImage(capturedImage))
+        return true
+    }
+
 }

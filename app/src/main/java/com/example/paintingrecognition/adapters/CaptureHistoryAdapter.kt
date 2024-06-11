@@ -11,15 +11,12 @@ import android.view.ViewGroup
 import androidx.exifinterface.media.ExifInterface
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.paintingrecognition.MainActivity
 import com.example.paintingrecognition.R
 import com.example.paintingrecognition.databinding.CaptureHistoryItemBinding
 import com.example.paintingrecognition.models.CapturedImage
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import com.example.paintingrecognition.models.ScanResult
 
-class CaptureHistoryAdapter(var captureResults: List<CapturedImage>, private val context: Context?): RecyclerView.Adapter<CaptureHistoryAdapter.CaptureItemViewHolder>() {
+class CaptureHistoryAdapter(var captureResults: List<CapturedImage>, var scanResults: List<ScanResult>, private val context: Context?): RecyclerView.Adapter<CaptureHistoryAdapter.CaptureItemViewHolder>() {
 
     lateinit var captureHistoryBinding: CaptureHistoryItemBinding
 
@@ -27,7 +24,8 @@ class CaptureHistoryAdapter(var captureResults: List<CapturedImage>, private val
     inner class CaptureItemViewHolder(view: View): RecyclerView.ViewHolder(view)  {
         val captureImageView = captureHistoryBinding.captureImageVew
         val captureName = captureHistoryBinding.captureName
-        val captureTime = captureHistoryBinding.captureTime
+        val scanAccuracy = captureHistoryBinding.scanAccuracy
+        val resultGenre = captureHistoryBinding.resultGenre
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CaptureItemViewHolder {
@@ -42,18 +40,16 @@ class CaptureHistoryAdapter(var captureResults: List<CapturedImage>, private val
 
     override fun onBindViewHolder(holder: CaptureItemViewHolder, position: Int) {
 
-        holder.itemView.setOnClickListener {
+       /* holder.itemView.setOnClickListener {
             MainActivity.navigation.openImageResultDetailPage(captureResults[position], null)
-        }
+        }*/
 
 
         holder.captureName.text = captureResults[position].name
 
-        val date = Date(captureResults[position].creationTimestamp)
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-        val formattedDate = simpleDateFormat.format(date)
-
-        holder.captureTime.text = formattedDate
+        val scanResult = scanResults.find { item -> item.capturedImageUrl == captureResults[position].path }
+        holder.scanAccuracy.text = String.format("%.3f",scanResult?.resemblance) + "%"
+        holder.resultGenre.text = scanResult?.genre
 
         context?.let {
             val bitmap2 = MediaStore.Images.Media.getBitmap(it.contentResolver, Uri.parse(captureResults[position].path))

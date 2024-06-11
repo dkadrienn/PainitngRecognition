@@ -60,7 +60,7 @@ class ImageResultDetailPage(private val capturedImage: CapturedImage, private va
         binding.capturedImageTitle.text = innerCapturedImage.name
         binding.capturedImageTime.text = formattedDate
         binding.resultGenre.text = innerScanResult.genre
-        binding.resultPainter.text = innerScanResult.painter
+       // binding.resultPainter.text = innerScanResult.painter
         binding.resultTitle.text = innerScanResult.title
         binding.resultResemblance.text = innerScanResult.resemblance.toString() + "%"
         binding.materialCardView.translationZ = -40f

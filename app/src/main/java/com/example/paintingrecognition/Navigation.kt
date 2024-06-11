@@ -3,7 +3,6 @@ package com.example.paintingrecognition
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.paintingrecognition.models.CapturedImage
-import com.example.paintingrecognition.models.ScanResult
 import com.example.paintingrecognition.viewModels.CapturedImageViewModel
 import com.example.paintingrecognition.viewModels.ScanViewModel
 
@@ -14,7 +13,7 @@ class Navigation(private val supportFragmentManager: FragmentManager, private va
     }
 
     fun openHistoryFragment() {
-        replaceFragment(HistoryFragment(capturedImageViewModel))
+        replaceFragment(HistoryFragment(capturedImageViewModel, scanViewModel))
     }
 
     fun openScanFragment() {
@@ -25,9 +24,9 @@ class Navigation(private val supportFragmentManager: FragmentManager, private va
         replaceFragment(ScanResultFragment(scanViewModel, capturedImageViewModel, capturedImage))
     }
 
-    fun openImageResultDetailPage(capturedImage: CapturedImage, scanResult: ScanResult?) {
+    /*fun openImageResultDetailPage(capturedImage: CapturedImage, scanResult: ScanResult?) {
         replaceFragment(ImageResultDetailPage(capturedImage, scanResult, scanViewModel))
-    }
+    }*/
 
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction();

@@ -47,7 +47,10 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        db = Room.databaseBuilder(applicationContext, CapturedImageDatabase::class.java, "captured_image.db").build()
+        db = Room.databaseBuilder(applicationContext, CapturedImageDatabase::class.java, "captured_image.db")
+            .fallbackToDestructiveMigration()
+            .build()
+
         navigation = Navigation(supportFragmentManager, capturedImageViewModel, scanViewModel)
 
         // needed to have good effect clicking on a menu item
@@ -89,5 +92,13 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.mainContainter)
+        if (fragment is IOnBackPressed) {
+            fragment.onBackPressed()
+        }
+        super.onBackPressed()
     }
 }

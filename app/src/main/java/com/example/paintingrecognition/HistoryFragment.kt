@@ -15,9 +15,11 @@ import com.example.paintingrecognition.adapters.CaptureHistoryAdapter
 import com.example.paintingrecognition.databinding.FragmentHistoryBinding
 import com.example.paintingrecognition.eventInterfaces.CapturedImageEvent
 import com.example.paintingrecognition.viewModels.CapturedImageViewModel
+import com.example.paintingrecognition.viewModels.ScanViewModel
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
-class HistoryFragment(private val capturedImageViewModel: CapturedImageViewModel) : Fragment() {
+class HistoryFragment(private val capturedImageViewModel: CapturedImageViewModel, private val scanViewModel: ScanViewModel) : Fragment() {
 
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var captureHistoryAdapter: CaptureHistoryAdapter
@@ -33,7 +35,7 @@ class HistoryFragment(private val capturedImageViewModel: CapturedImageViewModel
     }
 
     private fun setUpScanResultRecyclerView() {
-        captureHistoryAdapter = CaptureHistoryAdapter(mutableListOf(), context)
+        captureHistoryAdapter = CaptureHistoryAdapter(mutableListOf(), mutableListOf(), context)
         binding.historyRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.historyRecyclerView.adapter = captureHistoryAdapter
     }
@@ -41,22 +43,27 @@ class HistoryFragment(private val capturedImageViewModel: CapturedImageViewModel
     private fun registerForScanChanges() {
         lifecycleScope.launch {
             context?.let { innerContext ->
-                capturedImageViewModel._capturedImages.collect {
-                    var filteredItems = it.filter { capturedImage ->
-                        // filter elements which are deleted from phone but still present in DB, also deletes them from db
-                        if (!doesFileExist(innerContext, Uri.parse(capturedImage.path))) {
-                            capturedImageViewModel.onEvent(CapturedImageEvent.DeleteCapturedImage(capturedImage))
-                            return@filter false
-                        }
-                        return@filter true
+                capturedImageViewModel._capturedImages
+                    .zip(scanViewModel._scanResults) {
+                            images, scanResults -> Pair(images, scanResults)
                     }
+                    .collect {
+                        captureHistoryAdapter.scanResults = it.second
+                        var filteredItems = it.first.filter { capturedImage ->
+                            // filter elements which are deleted from phone but still present in DB, also deletes them from db
+                            if (!doesFileExist(innerContext, Uri.parse(capturedImage.path))) {
+                                capturedImageViewModel.onEvent(CapturedImageEvent.DeleteCapturedImage(capturedImage))
+                                return@filter false
+                            }
+                            return@filter true
+                        }
 
-                    binding.profileTitleTextView.text = getString(R.string.profile_title_text, filteredItems.size)
-                    binding.profileTitleTextView.visibility = View.VISIBLE
+                        binding.profileTitleTextView.text = getString(R.string.profile_title_text, filteredItems.size)
+                        binding.profileTitleTextView.visibility = View.VISIBLE
 
-                    capturedImageViewModel.loadedCapturedImages = filteredItems
-                    captureHistoryAdapter.captureResults = it
-                    captureHistoryAdapter.notifyDataSetChanged()
+                        capturedImageViewModel.loadedCapturedImages = filteredItems
+                        captureHistoryAdapter.captureResults = it.first
+                        captureHistoryAdapter.notifyDataSetChanged()
                 }
             }
         }

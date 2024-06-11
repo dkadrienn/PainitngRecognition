@@ -9,7 +9,7 @@ import com.example.paintingrecognition.models.ScanResult
 
 @Database(
     entities = [CapturedImage::class, ScanResult::class],
-    version = 1
+    version = 2
 )
 abstract class CapturedImageDatabase: RoomDatabase() {
 
