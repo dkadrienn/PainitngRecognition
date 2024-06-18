@@ -15,7 +15,7 @@
         android:paddingBottom="150dp"
         android:translationZ="-4dp"
         android:elevation="-4dp"
-        tools:context=".ImageResultDetailPage">
+        tools:context=".views.main.fragments.ImageResultDetailPage">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
@@ -23,7 +23,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
-            android:outlineSpotShadowColor="@color/primaryAccent"
+            android:outlineSpotShadowColor="@color/customColor"
             android:translationZ="-40dp"
             app:cardCornerRadius="20dp"
             android:layout_marginBottom="-4dp"
@@ -32,7 +32,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/materialCardView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/primaryAccent"
+            app:strokeColor="@color/customColor"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -45,7 +45,7 @@
             android:layout_marginBottom="10dp"
             android:elevation="-4dp"
             android:backgroundTint="#515151"
-            android:outlineSpotShadowColor="@color/primaryAccent"
+            android:outlineSpotShadowColor="@color/customColor"
             android:translationZ="-40dp"
             app:cardCornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/resultResemblance"

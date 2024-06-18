@@ -1,9 +1,9 @@
-package com.example.paintingrecognition.databases
+package com.example.paintingrecognition.databaseUtils
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.paintingrecognition.daos.CapturedImageDao
-import com.example.paintingrecognition.daos.ScanResultDao
+import com.example.paintingrecognition.databases.daos.CapturedImageDao
+import com.example.paintingrecognition.databases.daos.ScanResultDao
 import com.example.paintingrecognition.models.CapturedImage
 import com.example.paintingrecognition.models.ScanResult
 

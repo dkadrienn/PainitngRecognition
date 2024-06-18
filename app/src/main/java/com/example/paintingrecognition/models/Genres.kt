@@ -1,4 +1,4 @@
-package com.example.paintingrecognition
+package com.example.paintingrecognition.models
 
 enum class Genres {
     Abstract_Expressionism,

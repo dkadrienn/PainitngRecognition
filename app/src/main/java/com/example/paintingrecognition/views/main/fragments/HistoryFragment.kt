@@ -1,4 +1,4 @@
-package com.example.paintingrecognition
+package com.example.paintingrecognition.views.main.fragments
 
 import android.content.Context
 import android.database.Cursor
@@ -11,9 +11,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.paintingrecognition.R
 import com.example.paintingrecognition.adapters.CaptureHistoryAdapter
 import com.example.paintingrecognition.databinding.FragmentHistoryBinding
-import com.example.paintingrecognition.eventInterfaces.CapturedImageEvent
+import com.example.paintingrecognition.databases.events.CapturedImageEvent
 import com.example.paintingrecognition.viewModels.CapturedImageViewModel
 import com.example.paintingrecognition.viewModels.ScanViewModel
 import kotlinx.coroutines.flow.zip

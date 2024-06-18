@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HistoryFragment">
+    tools:context=".views.main.fragments.HistoryFragment"
+    android:background="@color/homeBackgroundColor">
 
     <TextView
         android:id="@+id/profileTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/profile_title_text"
-        android:textSize="@dimen/profile_title_text_size"
+        android:textSize="@dimen/text_24_sp"
         android:layout_marginTop="@dimen/profile_title_text_margin_top"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

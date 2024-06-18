@@ -5,72 +5,75 @@
     android:id="@+id/registration_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#222222"
-    tools:context=".RegistrationFragment">
+    android:background="@color/homeBackgroundColor"
+    tools:context=".views.auth.fragments.RegistrationFragment">
 
     <TextView
         android:id="@+id/registerWelcomeMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/title_top_margin"
-        android:text="Registration"
-        android:textSize="@dimen/login_welcome_text_size"
-        android:textColor="@color/primaryAccent"
+        android:text="@string/signin"
+        android:textColor="@color/customColor"
+        android:textSize="@dimen/text_36_sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/registerEmailEditText"
-        android:layout_width="@dimen/register_email_edit_text_width"
-        android:layout_height="@dimen/register_email_edit_text_height"
-        android:maxLines="1"
-        android:layout_marginTop="@dimen/edit_text_top_margin"
-        android:hint="@string/email"
-        android:textSize="@dimen/login_email_text_size"
-        android:textColor="@color/customColor"
+    <TextView
+        android:id="@+id/registerLoginText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/switch_text_margin"
+        android:layout_marginTop="@dimen/switch_text_margin_top"
+        android:text="@string/login"
+        android:textSize="@dimen/text_24_sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerWelcomeMessage" />
+
+    <TextView
+        android:id="@+id/registerSigninText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/switch_text_margin_top"
+        android:layout_marginEnd="@dimen/switch_text_margin"
+        android:text="@string/signin"
+        android:textSize="@dimen/text_24_sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerWelcomeMessage" >
+        app:layout_constraintTop_toBottomOf="@id/registerWelcomeMessage" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/insideEmailLogIn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="deak.a.adrienn@student.ms.sapientia.ro"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/registerPasswordEditText"
-        android:layout_width="@dimen/register_email_edit_text_width"
-        android:layout_height="@dimen/register_email_edit_text_height"
-        android:layout_marginTop="@dimen/edit_text_top_margin"
-        android:maxLines="1"
-        android:hint="@string/password"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/customColor"
+    <EditText
+        android:id="@+id/registerEmailEditText"
+        android:layout_width="@dimen/login_email_edit_text_width"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/email_edit_text_top_margin"
+        android:hint="@string/email"
+        android:text="deak.a.adrienn@student.ms.sapientia.ro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerEmailEditText" >
+        app:layout_constraintTop_toBottomOf="@+id/registerSigninText" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/insidePwdLogIn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:text="123456"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
+    <EditText
+        android:id="@+id/registerPasswordEditText"
+        android:layout_width="@dimen/login_email_edit_text_width"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/eye_24"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:text="123456"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerEmailEditText"
+        app:passwordToggleEnabled="true" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/registerSubmitButton"
-        android:layout_width="@dimen/register_submit_button_width"
-        android:layout_height="@dimen/register_submit_button_height"
-        android:layout_marginTop="@dimen/edit_text_top_margin"
+        android:layout_width="@dimen/login_submit_button_width"
+        android:layout_height="@dimen/login_submit_button_height"
+        android:layout_marginTop="@dimen/email_edit_text_top_margin"
         android:background="@drawable/button_background"
-        android:text="@string/submit"
+        android:text="@string/signin"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

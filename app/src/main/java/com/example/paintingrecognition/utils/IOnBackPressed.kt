@@ -1,4 +1,4 @@
-package com.example.paintingrecognition
+package com.example.paintingrecognition.utils
 
 interface IOnBackPressed {
     fun onBackPressed(): Boolean

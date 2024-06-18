@@ -7,14 +7,14 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="primaryAccent">@android:color/holo_blue_dark</color>
     <color name="primaryUnselected">#575757</color>
-    <color name="customColor">#166494</color>
+    <color name="customColor">#2B95C2</color>
 
     <!--  HOME FRAGMENT  -->
-    <color name="homeBackgroundColor">#373737</color>
+    <color name="homeBackgroundColor">#222121</color>
     <color name="homeCarouselBackgroundColor">#191919</color>
     <color name="fallbackColor">#BCBCBC</color>
 
     <!--  SCAN RESULT PROGRESS  -->
-    <color name="progressHeigh">#6B00FF38</color>
+    <color name="progressHeight">#6B00FF38</color>
     <color name="progressLow">#48FF0000</color>
 </resources>

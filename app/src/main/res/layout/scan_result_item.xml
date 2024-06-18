@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/homeBackgroundColor">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardViewBackground"
             android:layout_width="match_parent"
             android:layout_height="@dimen/scan_result_item_height"
-            app:cardCornerRadius="@dimen/scan_result_item_corner_radius"
-            android:translationZ="-2dp"
             android:layout_marginStart="@dimen/scan_result_item_margin"
-            android:layout_marginEnd="@dimen/scan_result_item_margin"
             android:layout_marginTop="@dimen/scan_result_item_margin"
+            android:layout_marginEnd="@dimen/scan_result_item_margin"
+            android:translationZ="-2dp"
+            app:cardCornerRadius="@dimen/scan_result_item_corner_radius"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +25,6 @@
             android:layout_width="300dp"
             android:layout_height="@dimen/scan_result_item_height"
             android:layout_marginTop="@dimen/scan_result_item_margin"
-            android:translationZ="-2dp"
             app:cardCornerRadius="@dimen/scan_result_item_corner_radius"
             app:layout_constraintBottom_toBottomOf="@+id/cardViewBackground"
             app:layout_constraintStart_toStartOf="@+id/cardViewBackground"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="scan_result_placeholder"
-            android:textSize="@dimen/scan_result_item_title_size"
+            android:textSize="@dimen/text_20_sp"
             android:translationZ="@dimen/carousel_item_translation_z"
             app:layout_constraintBottom_toBottomOf="@+id/cardViewBackground"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,12 +49,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/scan_result_item_percentage_margin_top"
             android:text="65.7%"
-            android:textSize="@dimen/scan_result_item_percentage_text_size"
+            android:textSize="@dimen/text_20_sp"
             android:translationZ="@dimen/carousel_item_translation_z"
             app:layout_constraintEnd_toEndOf="@+id/scanResultName"
             app:layout_constraintStart_toStartOf="@+id/scanResultName"
             app:layout_constraintTop_toTopOf="@+id/cardViewBackground" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

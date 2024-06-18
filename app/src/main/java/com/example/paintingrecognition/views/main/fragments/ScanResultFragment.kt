@@ -1,4 +1,4 @@
-package com.example.paintingrecognition
+package com.example.paintingrecognition.views.main.fragments
 
 import android.content.ContentResolver
 import android.content.Context
@@ -15,11 +15,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.paintingrecognition.utils.IOnBackPressed
+import com.example.paintingrecognition.R
 import com.example.paintingrecognition.adapters.ScanResultsAdapter
 import com.example.paintingrecognition.databinding.FragmentScanResultBinding
 import com.example.paintingrecognition.ml.Model.Outputs
 import com.example.paintingrecognition.models.CapturedImage
+import com.example.paintingrecognition.models.Genres
 import com.example.paintingrecognition.models.ScanResult
+import com.example.paintingrecognition.utils.GenericConstants
 import com.example.paintingrecognition.viewModels.CapturedImageViewModel
 import com.example.paintingrecognition.viewModels.ScanViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -32,7 +36,8 @@ import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-class ScanResultFragment(private val scanViewModel: ScanViewModel, private val capturedImageViewModel: CapturedImageViewModel, private val capturedImage: CapturedImage) : Fragment(), IOnBackPressed {
+class ScanResultFragment(private val scanViewModel: ScanViewModel, private val capturedImageViewModel: CapturedImageViewModel, private val capturedImage: CapturedImage) : Fragment(),
+    IOnBackPressed {
 
     private lateinit var binding: FragmentScanResultBinding
 

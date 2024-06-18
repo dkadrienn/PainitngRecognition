@@ -1,4 +1,4 @@
-package com.example.paintingrecognition
+package com.example.paintingrecognition.views.main.fragments
 
 import android.app.AlertDialog
 import android.content.ContentValues
@@ -24,7 +24,9 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.paintingrecognition.R
 import com.example.paintingrecognition.databinding.FragmentScanBinding
+import com.example.paintingrecognition.utils.ImageSavedCallback
 import com.example.paintingrecognition.viewModels.CapturedImageViewModel
 import com.example.paintingrecognition.viewModels.ScanViewModel
 import java.util.concurrent.ExecutorService

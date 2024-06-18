@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/black"
-    tools:context=".ScanFragment">
+    android:background="@color/homeBackgroundColor"
+    tools:context=".views.main.fragments.ScanFragment">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/cameraPreview"

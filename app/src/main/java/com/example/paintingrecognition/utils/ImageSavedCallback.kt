@@ -1,4 +1,4 @@
-package com.example.paintingrecognition
+package com.example.paintingrecognition.utils
 
 import android.content.Context
 import android.util.Log
@@ -6,6 +6,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCapture.OnImageSavedCallback
 import androidx.camera.core.ImageCaptureException
 import com.example.paintingrecognition.models.CapturedImage
+import com.example.paintingrecognition.views.main.MainActivity
 
 class ImageSavedCallback(val context: Context): OnImageSavedCallback {
     override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
@@ -13,7 +14,7 @@ class ImageSavedCallback(val context: Context): OnImageSavedCallback {
         val name = path.substring(path.lastIndexOf("/") + 1, path.length)
 
         val capturedImage = CapturedImage(name = name, path = outputFileResults.savedUri.toString(), creationTimestamp = System.currentTimeMillis())
-        MainActivity.navigation.openScanResultFragment(capturedImage)
+        MainActivity.navigator.openScanResultFragment(capturedImage)
     }
 
     override fun onError(exception: ImageCaptureException) {

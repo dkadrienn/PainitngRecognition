@@ -1,4 +1,4 @@
-package com.example.paintingrecognition
+package com.example.paintingrecognition.views.main
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -7,15 +7,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
-import com.example.paintingrecognition.databases.CapturedImageDatabase
+import com.example.paintingrecognition.R
+import com.example.paintingrecognition.databaseUtils.CapturedImageDatabase
 import com.example.paintingrecognition.databinding.ActivityMainBinding
+import com.example.paintingrecognition.utils.IOnBackPressed
+import com.example.paintingrecognition.utils.Navigator
 import com.example.paintingrecognition.viewModels.CapturedImageViewModel
 import com.example.paintingrecognition.viewModels.ScanViewModel
+import com.example.paintingrecognition.views.main.fragments.ScanFragment
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        lateinit var navigation: Navigation
+        lateinit var navigator: Navigator
 
     }
 
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             .fallbackToDestructiveMigration()
             .build()
 
-        navigation = Navigation(supportFragmentManager, capturedImageViewModel, scanViewModel)
+        navigator = Navigator(supportFragmentManager, capturedImageViewModel, scanViewModel)
 
         // needed to have good effect clicking on a menu item
         binding.bottomNavigationView.background = null
@@ -70,16 +74,18 @@ class MainActivity : AppCompatActivity() {
     private fun setUpNavigationListener() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.home -> navigation.openHomeFragment()
-                R.id.history -> navigation.openHistoryFragment()
+                R.id.home -> navigator.openHomeFragment()
+                R.id.history -> navigator.openHistoryFragment()
             }
             // reset floating button color to white
-            binding.floatingActionButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.white))
+            binding.floatingActionButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(
+                R.color.white
+            ))
             true
         }
 
         binding.floatingActionButton.setOnClickListener {
-            val fragment = supportFragmentManager.findFragmentById(R.id.mainContainter)
+            val fragment = supportFragmentManager.findFragmentById(R.id.main_container)
 
             if (fragment is ScanFragment) {
                 fragment.capturePhoto()
@@ -87,15 +93,17 @@ class MainActivity : AppCompatActivity() {
                 // set the placeholder to remove selection from other menu items
                 binding.bottomNavigationView.selectedItemId = R.id.placeholder
                 // set selected color for floating button
-                binding.floatingActionButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryAccent))
-                navigation.openScanFragment()
+                binding.floatingActionButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(
+                    R.color.customColor
+                ))
+                navigator.openScanFragment()
             }
 
         }
     }
 
     override fun onBackPressed() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.mainContainter)
+        val fragment = supportFragmentManager.findFragmentById(R.id.main_container)
         if (fragment is IOnBackPressed) {
             fragment.onBackPressed()
         }

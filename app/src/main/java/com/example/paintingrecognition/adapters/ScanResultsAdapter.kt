@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.paintingrecognition.GenericConstants
-import com.example.paintingrecognition.MainActivity
+import com.example.paintingrecognition.utils.GenericConstants
+import com.example.paintingrecognition.views.main.MainActivity
 import com.example.paintingrecognition.R
 import com.example.paintingrecognition.databinding.ScanResultItemBinding
-import com.example.paintingrecognition.eventInterfaces.CapturedImageEvent
-import com.example.paintingrecognition.eventInterfaces.ScanResultEvent
+import com.example.paintingrecognition.databases.events.CapturedImageEvent
+import com.example.paintingrecognition.databases.events.ScanResultEvent
 import com.example.paintingrecognition.models.CapturedImage
 import com.example.paintingrecognition.models.ScanResult
 import com.example.paintingrecognition.viewModels.CapturedImageViewModel
@@ -62,7 +62,7 @@ class ScanResultsAdapter(var scanResults: MutableList<ScanResult>,
                     if (scanResults[position].resemblance < GenericConstants.MODEL_PRECISION) {
                         scanResultBinding.progressCardView.backgroundTintList = ColorStateList.valueOf(it.getColor(R.color.progressLow))
                     } else {
-                        scanResultBinding.progressCardView.backgroundTintList = ColorStateList.valueOf(it.getColor(R.color.progressHeigh))
+                        scanResultBinding.progressCardView.backgroundTintList = ColorStateList.valueOf(it.getColor(R.color.progressHeight))
                     }
                 }
             }
@@ -80,7 +80,7 @@ class ScanResultsAdapter(var scanResults: MutableList<ScanResult>,
             scanViewModel.onEvent(ScanResultEvent.SaveScanResult(scanResult))
             capturedImageViewModel.onEvent(CapturedImageEvent.SaveCapturedImage(capturedImage))
             //MainActivity.navigation.openImageResultDetailPage(capturedImage, scanResult)
-            MainActivity.navigation.openHomeFragment()
+            MainActivity.navigator.openHomeFragment()
         }
     }
 

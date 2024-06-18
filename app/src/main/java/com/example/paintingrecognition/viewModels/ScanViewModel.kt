@@ -1,10 +1,9 @@
 package com.example.paintingrecognition.viewModels
 
-import android.os.Handler
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.paintingrecognition.daos.ScanResultDao
-import com.example.paintingrecognition.eventInterfaces.ScanResultEvent
+import com.example.paintingrecognition.databases.daos.ScanResultDao
+import com.example.paintingrecognition.databases.events.ScanResultEvent
 import com.example.paintingrecognition.models.ScanResult
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class ScanViewModel(
     private val dao: ScanResultDao
-): ViewModel() {
+) : ViewModel() {
 
     val _scanResults = dao.getScanResults()
     lateinit var _scanResultByUrl: Flow<ScanResult>
@@ -28,19 +27,23 @@ class ScanViewModel(
                     dao.upsertScanResult(event.scanResult)
                 }
             }
+
             is ScanResultEvent.DeleteScanResult -> {
                 viewModelScope.launch {
                     dao.deleteScanResult(event.scanResult)
                 }
             }
+
             is ScanResultEvent.DeleteScanResultByUrl -> {
                 viewModelScope.launch {
                     dao.deleteScanResultByUrl(event.url)
                 }
             }
+
             is ScanResultEvent.GetScanResultByUrl -> {
                 _scanResultByUrl = dao.getScanResultByImageUrl(event.url)
             }
+
             ScanResultEvent.GetScanResults -> {
                 _scanResults
             }
@@ -54,8 +57,6 @@ class ScanViewModel(
     fun emmitResult(items: MutableList<ScanResult>) {
 
         items.sortByDescending { it.resemblance }
-        Handler().postDelayed(Runnable {
-            scanResultSubject.onNext(items)
-        },1000)
+        scanResultSubject.onNext(items)
     }
 }

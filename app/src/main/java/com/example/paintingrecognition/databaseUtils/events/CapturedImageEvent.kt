@@ -1,4 +1,4 @@
-package com.example.paintingrecognition.eventInterfaces
+package com.example.paintingrecognition.databases.events
 
 import com.example.paintingrecognition.models.CapturedImage
 

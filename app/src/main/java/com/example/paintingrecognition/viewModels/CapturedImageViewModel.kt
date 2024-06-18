@@ -2,8 +2,8 @@ package com.example.paintingrecognition.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.paintingrecognition.daos.CapturedImageDao
-import com.example.paintingrecognition.eventInterfaces.CapturedImageEvent
+import com.example.paintingrecognition.databases.daos.CapturedImageDao
+import com.example.paintingrecognition.databases.events.CapturedImageEvent
 import com.example.paintingrecognition.models.CapturedImage
 import kotlinx.coroutines.launch
 

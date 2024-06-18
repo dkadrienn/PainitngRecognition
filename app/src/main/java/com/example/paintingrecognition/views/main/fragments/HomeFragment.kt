@@ -1,4 +1,4 @@
-package com.example.paintingrecognition
+package com.example.paintingrecognition.views.main.fragments
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -16,14 +16,16 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.example.paintingrecognition.R
 import com.example.paintingrecognition.adapters.CarouselAdapter
+import com.example.paintingrecognition.databases.events.CapturedImageEvent
+import com.example.paintingrecognition.databases.events.ScanResultEvent
 import com.example.paintingrecognition.databinding.FragmentHomeBinding
-import com.example.paintingrecognition.eventInterfaces.CapturedImageEvent
-import com.example.paintingrecognition.eventInterfaces.ScanResultEvent
 import com.example.paintingrecognition.models.CapturedImage
 import com.example.paintingrecognition.models.ScanResult
 import com.example.paintingrecognition.viewModels.CapturedImageViewModel
 import com.example.paintingrecognition.viewModels.ScanViewModel
+import com.example.paintingrecognition.views.main.MainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.Flow
@@ -138,8 +140,10 @@ class HomeFragment(private val capturedImageViewModel: CapturedImageViewModel, p
                 view.selectedItemId = R.id.placeholder
                 // set selected color for floating button
                 val floatingActionButton = activity?.findViewById<FloatingActionButton>(R.id.floatingActionButton)
-                floatingActionButton?.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryAccent))
-                MainActivity.navigation.openScanFragment()
+                floatingActionButton?.backgroundTintList = ColorStateList.valueOf(resources.getColor(
+                    R.color.customColor
+                ))
+                MainActivity.navigator.openScanFragment()
                 binding.fallbackGroup.setOnClickListener(null)
             }
         }

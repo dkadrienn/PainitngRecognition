@@ -1,17 +1,20 @@
-package com.example.paintingrecognition
+package com.example.paintingrecognition.views.auth.fragments
 
 import android.content.Intent
-import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.paintingrecognition.R
 import com.example.paintingrecognition.databinding.FragmentLoginBinding
-import com.google.android.material.textfield.TextInputLayout
+import com.example.paintingrecognition.views.auth.AuthenticationActivity
+import com.example.paintingrecognition.views.main.MainActivity
 
 
 class LoginFragment : Fragment() {
@@ -19,30 +22,32 @@ class LoginFragment : Fragment() {
     lateinit var binding: FragmentLoginBinding
 
     // views
-    private lateinit var emailTextField: TextInputLayout
-    private lateinit var passwordTextField: TextInputLayout
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
-    private lateinit var notRegistedTextView: TextView
+    private lateinit var notRegisterTextView: TextView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        emailTextField = binding.loginEmailEditText
-        passwordTextField = binding.loginPasswordEditText
+        emailEditText = binding.loginEmailEditText
+        passwordEditText = binding.loginPasswordEditText
         loginButton = binding.loginSubmitButton
-        notRegistedTextView = binding.notRegisterdText
-
-        notRegistedTextView.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        notRegisterTextView = binding.loginSigninText
 
         registerListeners()
 
         return binding.root
     }
 
-    fun registerListeners() {
-        loginButton.setOnClickListener{ view ->
-            val email = emailTextField.editText?.text.toString()
-            val password = passwordTextField.editText?.text.toString()
+    private fun registerListeners() {
+        loginButton.setOnClickListener {
+            val email = emailEditText.text.toString()
+            val password = passwordEditText.text.toString()
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 AuthenticationActivity.auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
@@ -56,7 +61,8 @@ class LoginFragment : Fragment() {
             }
         }
 
-        notRegistedTextView.setOnClickListener { view ->
+        notRegisterTextView.setOnClickListener {
+            notRegisterTextView.setTypeface(null, Typeface.BOLD_ITALIC)
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.run {
                 replace(R.id.authentication_main, RegistrationFragment())

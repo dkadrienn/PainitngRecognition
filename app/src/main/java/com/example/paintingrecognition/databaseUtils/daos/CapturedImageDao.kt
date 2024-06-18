@@ -1,4 +1,4 @@
-package com.example.paintingrecognition.daos
+package com.example.paintingrecognition.databases.daos
 
 import androidx.room.Dao
 import androidx.room.Delete

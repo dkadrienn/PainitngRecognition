@@ -1,4 +1,4 @@
-package com.example.paintingrecognition
+package com.example.paintingrecognition.views.main.fragments
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
@@ -12,8 +12,9 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.paintingrecognition.R
 import com.example.paintingrecognition.databinding.FragmentImageResultDetailPageBinding
-import com.example.paintingrecognition.eventInterfaces.ScanResultEvent
+import com.example.paintingrecognition.databases.events.ScanResultEvent
 import com.example.paintingrecognition.models.CapturedImage
 import com.example.paintingrecognition.models.ScanResult
 import com.example.paintingrecognition.viewModels.ScanViewModel
