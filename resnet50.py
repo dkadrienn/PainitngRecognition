@@ -24,10 +24,8 @@ from tensorflow.keras.applications import ResNet50
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tensorflow.keras.regularizers import l2
 
-
-# Configuration
 IMG_SIZE = 224
-MODEL_PATH = "resnet50_painting_model.h5"
+MODEL_PATH = "effNetB0_painting_model.h5"
 
 # Art style directories
 style_dirs = {
@@ -36,18 +34,17 @@ style_dirs = {
     'Cubism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Cubism',
     'Expressionism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Expressionism',
     'Fauvism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Fauvism',
-    'Impressionism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Impressionism',
-    # 'Minimalism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Minimalism',
-    # 'NaiveArtPrimitivism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Naive_Art_Primitivism',
-    # 'PopArt': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Pop_Art',
-    # 'Realism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Realism',
-    # 'Renaissance': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Renaissance',
-    # 'Rococo': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Rococo',
-    # 'Romanticism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Romanticism',
-    # 'Symbolism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Symbolism',
-    # 'AI_Generated': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/ai_gen'
+    'Impressionism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/Real_Imp_reduced/Impressionism',
+    'Minimalism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Minimalism',
+    'NaiveArtPrimitivism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Naive_Art_Primitivism',
+    'PopArt': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Pop_Art',
+    'Realism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/Real_Imp_reduced/Realism',
+    'Renaissance': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Renaissance',
+    'Rococo': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Rococo',
+    'Romanticism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Romanticism',
+    'Symbolism': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/wikiart_concat/Symbolism',
+    'AI_Generated': 'C:/Users/deaka/OneDrive/Documents/Disszertacio/ai_gen'
 }
-
 
 def is_ascii(s):
     try:
@@ -98,13 +95,13 @@ def load_data(style_dirs):
     return np.array(X), np.array(Z)
 
 def build_model(num_classes, img_size=IMG_SIZE):
+
     base_model = ResNet50(weights='imagenet', include_top=False, 
                          input_shape=(img_size, img_size, 3))
     
     # Fine-tune the model
     base_model.trainable = True
     
-    # Add custom classification head
     x = base_model.output
     x = GlobalAveragePooling2D()(x)
     x = Dense(256, activation='relu')(x)
@@ -175,7 +172,6 @@ def plot_confusion_matrix_with_images(x_test, y_true, y_pred, class_names):
         if image_indices[true_idx, pred_idx] == -1:
             image_indices[true_idx, pred_idx] = idx
     
-    # Create subplot grid
     fig, axes = plt.subplots(num_classes, num_classes, 
                            figsize=(3*num_classes, 3*num_classes))
     
@@ -188,11 +184,9 @@ def plot_confusion_matrix_with_images(x_test, y_true, y_pred, class_names):
             ax.set_xticks([])
             ax.set_yticks([])
             
-            # Get image index for this cell
             idx = image_indices[i, j]
             
             if idx != -1:
-                # Display image
                 ax.imshow(x_test[idx])
                 
                 # Set border color (green for correct, red for incorrect)
@@ -204,13 +198,11 @@ def plot_confusion_matrix_with_images(x_test, y_true, y_pred, class_names):
                     spine.set_linewidth(border_width)
                     spine.set_visible(True)
             else:
-                # No example for this combination
                 ax.text(0.5, 0.5, 'No\nExample', 
                        ha='center', va='center', fontsize=10,
                        transform=ax.transAxes)
                 ax.set_facecolor('lightgray')
             
-            # Add labels
             if i == 0:
                 ax.set_title(f'Predicted: {class_names[j]}', fontsize=10, pad=10)
             if j == 0:
@@ -246,7 +238,6 @@ def plot_class_performance_comparison(report, class_names):
 def plot_prediction_confidence_distribution(confidences, correct_mask):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
     
-    # Overall confidence distribution
     ax1.hist(confidences, bins=20, alpha=0.7, color='blue', edgecolor='black')
     ax1.axvline(np.mean(confidences), color='red', linestyle='--', 
                 label=f'Mean: {np.mean(confidences):.3f}')
@@ -256,7 +247,6 @@ def plot_prediction_confidence_distribution(confidences, correct_mask):
     ax1.legend()
     ax1.grid(True, alpha=0.3)
     
-    # Correct vs Incorrect confidence distribution
     ax2.hist(confidences[correct_mask], bins=15, alpha=0.7, color='green', 
              label='Correct Predictions', edgecolor='black')
     ax2.hist(confidences[~correct_mask], bins=15, alpha=0.7, color='red', 
@@ -368,6 +358,7 @@ def evaluate_model(model, x_test, y_test, class_names, x_train=None, y_train=Non
     cm = plot_confusion_matrix_heatmap(y_true, y_pred, actual_class_names)
     plot_confusion_matrix_with_images(x_test, y_true, y_pred, actual_class_names)
     
+    # Plot additional visualizations
     plot_class_performance_comparison(report, actual_class_names)
     plot_prediction_confidence_distribution(max_probs, correct_mask)
     
@@ -394,9 +385,9 @@ def evaluate_model(model, x_test, y_test, class_names, x_train=None, y_train=Non
 
 def measure_inference_time(model, x_test, n_samples=10):
     print(f"\nMeasuring inference time on {n_samples} samples...")
-    
+    nr_samples = 10
     start_time = time.time()
-    for i in range(n_samples):
+    for i in range(nr_samples):
         _ = model.predict(np.expand_dims(x_test[i], axis=0), verbose=0)
     end_time = time.time()
     
@@ -416,7 +407,7 @@ def main():
     # Encode labels
     le = LabelEncoder()
     Y = le.fit_transform(Z)
-    Y = to_categorical(Y, len(le.classes_))  # Use actual number of classes found
+    Y = to_categorical(Y, len(le.classes_))
     
     # Normalize images
     X = X.astype('float32') / 255.0
@@ -441,11 +432,11 @@ def main():
     
     # Data augmentation
     datagen = ImageDataGenerator(
-        rotation_range=15,
+        # rotation_range=15,
         zoom_range=0.1,
         width_shift_range=0.1,
         height_shift_range=0.1,
-        horizontal_flip=True,
+        # horizontal_flip=True,
         fill_mode='nearest'
     )
     datagen.fit(x_train)
